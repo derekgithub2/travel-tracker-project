@@ -96,7 +96,7 @@ describe('Trips', function() {
         "status": "approved",
         "suggestedActivities": []},
         {"id": 9,
-        "userID": 24,
+        "userID": 1,
         "destinationID": 19,
         "travelers": 5,
         "date": "2022/12/19",
@@ -171,23 +171,23 @@ describe('Trips', function() {
         expect(userTrip1).to.be.an.instanceOf(Trips);
     })
 
-    it('should have a function that returns the trips for 1 user', function () {
-        console.log(user1)
+    it('should have a function that returns the trips for 1 user in an array', function () {
+
         userID = user1.id
-        console.log('userID=', userID)
+        
+        let method = trips.getUserTrips(userID)
 
-        let user1Trips = userTrip1.getUserTrips(userID)
-
-        expect(user1Trips).to.deep.equal({
-            "id": 1,
-            "userID": 44,
-            "destinationID": 49,
-            "travelers": 1,
-            "date": "2022/09/16",
-            "duration": 8,
+        expect(method).to.be.an("array");
+        expect(method).to.deep.equal(
+            [{"id": 9,
+            "userID": 1,
+            "destinationID": 19,
+            "travelers": 5,
+            "date": "2022/12/19",
+            "duration": 19,
             "status": "approved",
-            "suggestedActivities": []
-        })
+            "suggestedActivities": []}]
+        )
     })
     
     it.skip('should get all upcoming trips', function () {

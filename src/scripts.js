@@ -21,6 +21,7 @@ let userData;
 let tripData;
 let currentUser;
 let userTrips;
+let destinationsData;
 
 
 // event listeners
@@ -28,12 +29,13 @@ let userTrips;
 
 // functions
 
-Promise.all([fetchData('travelers'), fetchData('trips')])
+Promise.all([fetchData('travelers'), fetchData('trips'), fetchData('destinations')])
 .then((data) => {
     userData = data[0].travelers
     tripData = data[1].trips
-    createTraveler(userData)
-    createTrips(tripData)
+    destinationsData = data[2].destinations
+    instantiateTraveler(userData)
+    instantiateTrip(tripData)
     onLoad(userData, tripData)
 })
 
@@ -42,29 +44,46 @@ Promise.all([fetchData('travelers'), fetchData('trips')])
 // create function that get's the users ID by the login ID in the form. 
 
 const onLoad = (userData, tripData) => {
-    currentUser = userData[0]
-    welcomeMessage.innerText = `Hello, ${currentUser.name}`
-    displayAllTrips(currentUser, tripData)
-    console.log("currentUser: ", currentUser)
+    setCurrentUser(userData)
+    // displayDashboard() --- money spent etc
+    displayAllTrips(currentUser, tripData, destinationsData)
 }
 
-const createTraveler = (userData) => { 
+const setCurrentUser = (userData) => {
+    currentUser = userData[0]
+    welcomeMessage.innerText = `Hello, ${currentUser.name}`
+    // make this dynamic so that it takes in what was inputted in login form. 
+}
+
+const instantiateTraveler = (userData) => { 
     return new User(userData)
 }
 
-const createTrips = (tripData) => {
+const instantiateTrip = (tripData) => {
     userTrips = new Trips(tripData)
-    console.log("userTrips: ", userTrips)
+    // console.log("currentUser: ", currentUser)
+
 }
 
-const displayAllTrips = (currentUser, userTrips) => {
-    console.log("LOOK HERE", currentUser.id)
+const displayAllTrips = (currentUser, userTrips, destinationsData) => {
+    // console.log("LOOK HERE", currentUser)
+    // console.log("userTrips: ", userTrips)
+    // console.log("destinationsData", destinationsData)
+
+    let currentUserID = currentUser.id
+
+    console.log(userTrips.getUserTrips(currentUserID))
+
+    // let destinationID = desinationsData.destinationID
+    // const destinationObj = destinationsData.find(destination => {
+    //     return destination.id === userTrips[]
+    // })
 
     //iterate through userTrips and return the trips for just 1 user this is probably written in Trips class or User class
     // use this function to display data 
-    
+
     tripWidget1.innerHTML = `
-    <p>Destination: ${userTrips[currentUser.id].destination}</p>
+    <p>Destination: ${userTrips[currentUserID].destinationID}</p>
     <p>Date: </p>
     <p>Duration: </p>
     <p>Travelers: </p>

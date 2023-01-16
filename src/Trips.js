@@ -1,13 +1,17 @@
 import User from '../src/User'
 
 class Trips {
-    constructor (tripsData) {
-        this.tripsData = tripsData
+    constructor (data) {
+        this.tripsData = data
     }
 
     getUserTrips (userID) {
-        // console.log(this.trips[userID])
-        return this.tripsData[userID]
+        let data = this.tripsData
+        let filteredArr = data.filter(trip => {
+            return trip.userID === userID
+        })
+        console.log("IN FX HERE:", filteredArr)
+        return filteredArr
     }
 
 }
