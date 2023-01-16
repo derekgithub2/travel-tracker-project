@@ -18,6 +18,7 @@ const welcomeMessage = document.getElementById('welcomeMessage')
 let userData;
 let tripData;
 let currentUser;
+let userTrips;
 
 // event listeners
 
@@ -33,15 +34,15 @@ Promise.all([fetchData('travelers'), fetchData('trips')])
     onLoad(userData)
 })
 
-// const generateRandomUserId = (min, max) => {
-//     randomUserId = Math.floor(Math.random() * (max - min) + 1)
-// } 
-
 // traveler functions
 
+// create function that get's the users ID by the login ID in the form. 
+
 const onLoad = (userData) => {
-    welcomeMessage.innerText = `Hello, ${userData}`
-    console.log("userData: ", userData)
+    currentUser = userData[0]
+    welcomeMessage.innerText = `Hello, ${currentUser.name}`
+    displayAllTrips()
+    // console.log("userData: ", userData)
 }
 
 const createTraveler = (userData) => { 
@@ -49,7 +50,12 @@ const createTraveler = (userData) => {
 }
 
 const createTrips = (tripData) => {
-    return new Trips(tripData) 
+    userTrips = new Trips(tripData)
+    console.log("userTrips: ", userTrips)
+}
+
+const displayAllTrips = (currentUser) => {
+
 }
 
 // function to make a trip request (select date, duration, num of travelers and list of destinations)
