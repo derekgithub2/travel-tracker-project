@@ -12,11 +12,12 @@ import { fetchData } from '../src/apiCalls'
 import Trips from './Trips';
 
 // query selectors
-
+const welcomeMessage = document.getElementById('welcomeMessage')
 
 // global variables
 let userData;
 let tripData;
+let currentUser;
 
 // event listeners
 
@@ -32,13 +33,14 @@ Promise.all([fetchData('travelers'), fetchData('trips')])
     onLoad(userData)
 })
 
-const generateRandomUserId = (min, max) => {
-    randomUserId = Math.floor(Math.random() * (max - min) + 1)
-}
+// const generateRandomUserId = (min, max) => {
+//     randomUserId = Math.floor(Math.random() * (max - min) + 1)
+// } 
 
 // traveler functions
 
 const onLoad = (userData) => {
+    welcomeMessage.innerText = `Hello, ${userData}`
     console.log("userData: ", userData)
 }
 
