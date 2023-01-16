@@ -13,12 +13,15 @@ import Trips from './Trips';
 
 // query selectors
 const welcomeMessage = document.getElementById('welcomeMessage')
+const tripWidget1 = document.getElementById('tripWidget1')
+
 
 // global variables
 let userData;
 let tripData;
 let currentUser;
 let userTrips;
+
 
 // event listeners
 
@@ -31,18 +34,18 @@ Promise.all([fetchData('travelers'), fetchData('trips')])
     tripData = data[1].trips
     createTraveler(userData)
     createTrips(tripData)
-    onLoad(userData)
+    onLoad(userData, tripData)
 })
 
 // traveler functions
 
 // create function that get's the users ID by the login ID in the form. 
 
-const onLoad = (userData) => {
+const onLoad = (userData, tripData) => {
     currentUser = userData[0]
     welcomeMessage.innerText = `Hello, ${currentUser.name}`
-    displayAllTrips()
-    // console.log("userData: ", userData)
+    displayAllTrips(currentUser, tripData)
+    console.log("currentUser: ", currentUser)
 }
 
 const createTraveler = (userData) => { 
@@ -54,8 +57,19 @@ const createTrips = (tripData) => {
     console.log("userTrips: ", userTrips)
 }
 
-const displayAllTrips = (currentUser) => {
+const displayAllTrips = (currentUser, userTrips) => {
+    console.log("LOOK HERE", currentUser.id)
 
+    //iterate through userTrips and return the trips for just 1 user this is probably written in Trips class or User class
+    // use this function to display data 
+    
+    tripWidget1.innerHTML = `
+    <p>Destination: ${userTrips[currentUser.id].destination}</p>
+    <p>Date: </p>
+    <p>Duration: </p>
+    <p>Travelers: </p>
+    <p>Status: </p>
+    `
 }
 
 // function to make a trip request (select date, duration, num of travelers and list of destinations)

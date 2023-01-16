@@ -1,7 +1,15 @@
+import User from '../src/User'
+
 class Trips {
-    constructor (trips) {
-        this.trips = trips
+    constructor (tripsData) {
+        this.tripsData = tripsData
     }
+
+    getUserTrips (userID) {
+        // console.log(this.trips[userID])
+        return this.tripsData[userID]
+    }
+
 }
 
 export default Trips
