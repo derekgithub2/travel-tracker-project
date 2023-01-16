@@ -8,26 +8,47 @@ import './css/styles.css';
 import './images/login-icon.png'
 
 import User from "./User"
+import { fetchData } from '../src/apiCalls'
+import Trips from './Trips';
 
 // query selectors
 
 
 // global variables
-let travlerData;
+let userData;
+let tripData;
 
 // event listeners
 
 
 // functions
 
-Promise.all([fetchData('travevlerData')])
+Promise.all([fetchData('travelers'), fetchData('trips')])
 .then((data) => {
-    travelerData = data[0].travelers
+    userData = data[0].travelers
+    tripData = data[1].trips
+    createTraveler(userData)
+    createTrips(tripData)
+    onLoad(userData)
 })
+
+const generateRandomUserId = (min, max) => {
+    randomUserId = Math.floor(Math.random() * (max - min) + 1)
+}
 
 // traveler functions
 
-// display all trips
+const onLoad = (userData) => {
+    console.log("userData: ", userData)
+}
+
+const createTraveler = (userData) => { 
+    return new User(userData)
+}
+
+const createTrips = (tripData) => {
+    return new Trips(tripData) 
+}
 
 // function to make a trip request (select date, duration, num of travelers and list of destinations)
 

@@ -16,6 +16,21 @@ const addTrip = (id, userID, destinationID, tripTravelers, tripDate, tripDuratio
             duration: tripDuration,
             status: tripStatus,
             suggestedActivities: tripActivities
+        }), 
+        header: {
+            "Content-Type": "applicaton/json"
+        }
+        .then(response => {
+            if(response.ok) {
+                return response.json()
+            } 
+            throw new Error('Something went wrong')
+        })
+        .catch((error) => {
+            alert(error)
         })
     })
 }
+
+export { fetchData } 
+export { addTrip }
