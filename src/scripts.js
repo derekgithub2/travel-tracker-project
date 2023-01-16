@@ -5,7 +5,30 @@
 import './css/styles.css';
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/turing-logo.png'
+import './images/login-icon.png'
+
+import User from "./User"
+
+// query selectors
 
 
-console.log('This is the JavaScript entry file - your code begins here.');
+// global variables
+let travlerData;
+
+// event listeners
+
+
+// functions
+
+Promise.all([fetchData('travevlerData')])
+.then((data) => {
+    travelerData = data[0].travelers
+})
+
+// traveler functions
+
+// display all trips
+
+// function to make a trip request (select date, duration, num of travelers and list of destinations)
+
+// 
