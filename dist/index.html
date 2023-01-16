@@ -1,16 +1,50 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Webpack Starter Kit</title>
-</head>
-<body>
-  <img src="./images/turing-logo.png" alt="turing logo">
-  
-  <!-- Do not include the scripts.js or class files here - it is done by the webpack server -->
-  <script src="bundle.js"></script>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Tracker</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lexend:wght@100;400;900&display=swap" rel="stylesheet">
+    <meta name="description" content="Track and display a user's health-related statistics onto a dashboard.">
+    <link rel="icon" type="image/png" href= "https://iili.io/HodCRHv.png">
+  </head>
+    <body>
+      <main>
+        <section class="left-sidebar">
+          <div class="button">button 1</div>
+          <div class="button">button 2</div>
+          <div class="button">button 3</div>
+        </section>
+        <section class="big-right-container">
+          <section class="top-nav-bar">
+            <h1 id="welcomeMessage">Hello, user!</h1>
+            <img class="login-icon" src="./images/login-icon.png" alt="login icon">
+          </section>
+          <section class="middle-section">
 
-</body>
+          </section>
+          <section class="login-page hidden" id="loginPage">
+            <form class="login-form">
+              <label class="login-username">Username</label>
+              <input type="text"> 
+              <label class="login-password">Password</label>
+              <input type="text">
+              <input type="submit">
+            </form>
+          </section>
+          <section class="bottom-right-container">
+            <section class="widget">Trip 1</section>
+            <section class="widget">Trip 2</section>
+            <section class="widget">Trip 3</section>
+            <section class="widget">Trip 4</section>
+            <section class="widget">Trip 5</section>
+            <section class="widget">Trip 6</section>
+          </section>
+        </section>
+      </main>
+      <script src="bundle.js"></script>
+    </body> 
 </html>
