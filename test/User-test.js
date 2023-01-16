@@ -3,7 +3,7 @@ import User from '../src/User'
 
 const expect = chai.expect;
 
-describe('See if the tests are running', function() {
+describe('User', function() {
     let user1;
     let user2;
     const userData = [
@@ -48,22 +48,6 @@ describe('See if the tests are running', function() {
 
   it('should have an id', function () {
     expect(user1.id).to.equal(1)
-  })
-
-  it('should get a single traveler', function () {
-    expect()
-  })
-
-  it('should get all upcoming trips', function () {
-    
-  })
-
-  it('should get all pending trips', function () {
-    
-  })
-
-  it('should return the total amount spent on trips this year', function () {
-        //This should be calculated from the trips data and include a travel agent’s 10% fee
   })
 
 

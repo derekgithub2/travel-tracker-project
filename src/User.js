@@ -6,11 +6,6 @@ class User {
         this.travelerType = userData.travelerType
     }
 
-    // function to get userID
-    getUserID () {
-        
-    }
-
 }
 
 
