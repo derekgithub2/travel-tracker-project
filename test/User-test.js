@@ -33,7 +33,10 @@ describe('See if the tests are running', function() {
 
   })
 
+  it('should return the total amount spent on trips this year', function () {
+        //This should be calculated from the trips data and include a travel agent’s 10% fee
+  })
 
-
+  
 
 });
