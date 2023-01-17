@@ -117,6 +117,7 @@ button:hover {
 
 .middle-section {
   display: flex;
+  align-items: flex-start;
   height: 15vh;
   margin-top: 20px;
 }

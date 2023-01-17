@@ -26,7 +26,6 @@ let userData;
 let tripData;
 let currentUser;
 let currentUserID;
-let allUsers;
 let allUserTrips;
 let destinationsData;
 let currentUsersTrips;
@@ -44,9 +43,8 @@ loginButton.addEventListener('click', function (event) {
             destinationsData = data[2].destinations
             createUser(userData, currentUserID)
             instantiateTrip(tripData)
-            onLoad(allUsers, currentUserID)
+            onLoad(currentUser)
     })
-    
 })
 
 logoutButton.addEventListener('click', function(event) {
@@ -75,25 +73,17 @@ const getUserID = (input) => {
     return currentUserID
 }
 
-// const setCurrentUser = (currentUserID) => {
-    
-// }
-
 const logout = () => {
     sessionStorage.clear();
     window.location.href = 'http://localhost:8080/'
 }
 
 const createUser = (userData, currentUserID) => { 
-    console.log("inside createUser:", userData)
-    console.log("currentUserID inside createUser:", currentUserID)
-    console.log("not GUS yet:", currentUser)
-
     currentUser = userData.find(user => {
         return user.id === currentUserID
     })
-    console.log("HELLOOOO IS THIS GUS?", currentUser)
     return currentUser
+    // currentUser is an object
 }
 
 const instantiateTrip = (tripData) => {
@@ -101,34 +91,23 @@ const instantiateTrip = (tripData) => {
     return allUserTrips
 }
 
-const onLoad = (allUsers) => {
-    console.log('allUsers', allUsers)
-    console.log("THIS SHOULD BE A NUMBER")
-    console.log("inside onLoad fx:", currentUserID)
-    // currentUser = userData.filter(user => {
-    //     return user.id === currentUserID
-    // })
-    welcomeMessage.innerText = `Hello, ${allUsers[currentUserID].name}`
-    // displayDashboard() --- money spent etc
+const onLoad = (currentUser) => {
+    // console.log('INSIDE ONLOAD currentUser:', currentUser)
+    // console.log("THIS SHOULD BE A NUMBER")
+    // console.log("inside onLoad fx:", currentUserID)
+    welcomeMessage.innerText = `Hello, ${currentUser.name}`
     displayTrips(currentUser, destinationsData)
 }
-
-// displayDashboard = () => {
-
-// }
 
 const displayTrips = (currentUser, allUserTrips, destinationsData) => {
 
     currentUsersTrips = allUserTrips.filter(trip => {
-        return trip.userID === currentUser.id
+        return trip.userID === currentUserID
     })
-    console.log("LOOK HERE", currentUser)
+    console.log("LOOK HERE currentUsersTrips", currentUsersTrips)
     const destinationObj = destinationsData.filter(destination => {
         return destination.id === currentUsersTrips[currentUser.id].destinationID
     })
-
-    //iterate through allUserTrips and return the trips for just 1 user this is probably written in Trips class or User class
-    // use this function to display data 
 
     tripWidget1.innerHTML += `
     <p>Destination: ${destinationObj[0].destination}</p>
