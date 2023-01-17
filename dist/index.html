@@ -26,13 +26,15 @@
           <section class="middle-section">
 
           </section>
-          <section class="login-page hidden" id="loginPage">
-            <form class="login-form">
-              <label class="login-username">Username</label>
-              <input type="text"> 
-              <label class="login-password">Password</label>
-              <input type="text">
-              <input type="submit">
+          <section class="login-page" id="loginPage">
+            <form action="action_page.php" method="post" class="login-form">
+              <div class="login-container">
+                <label for="uname" class="login-username"><b>Username</b></label>
+                <input type="text" placeholder="Enter Username" name="uname" required>
+                <label for="psw" class="login-password"><b>Password</b></label>
+                <input type="password" placeholder="Enter Password" name="psw" required>
+                <button type="submit">Login</button>
+              </div>
             </form>
           </section>
           <section class="bottom-right-container">

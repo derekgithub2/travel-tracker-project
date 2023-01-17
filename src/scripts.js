@@ -62,16 +62,18 @@ const onLoad = (userData, tripData) => {
     displayTrips(currentUser, tripData, destinationsData)
 }
 
-const setCurrentUser = (userData) => {
+// const setCurrentUser = (userData) => {
     // make this dynamic so that it takes in what was inputted in login form. 
-    return currentUser
-}
+//     return currentUser
+// }
 
 const displayTrips = (currentUser, allUserTrips, destinationsData) => {
 
     currentUsersTrips = allUserTrips.filter(trip => {
         return trip.userID === currentUser.id
     })
+
+    console.log(currentUsersTrips)
 
     const destinationObj = destinationsData.filter(destination => {
         return destination.id === currentUsersTrips[0].destinationID
