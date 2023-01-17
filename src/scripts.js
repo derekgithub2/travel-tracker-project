@@ -14,7 +14,9 @@ import Trips from './Trips';
 // query selectors
 const welcomeMessage = document.getElementById('welcomeMessage')
 const tripWidget1 = document.getElementById('tripWidget1')
-
+const loginButton = document.getElementById('loginButton')
+const loginPage = document.getElementById('loginPage')
+const logoutButton = document.getElementById('logoutButton')
 
 // global variables
 let userData;
@@ -25,7 +27,15 @@ let destinationsData;
 let currentUsersTrips;
 
 // event listeners
+loginButton.addEventListener('submit', function (event) {
+    event.preventDefault();
+    checkLogin();
+})
 
+logoutButton.addEventListener('click', function(event) {
+    event.preventDefault();
+    logout();
+})
 
 // functions
 
@@ -39,6 +49,28 @@ Promise.all([fetchData('travelers'), fetchData('trips'), fetchData('destinations
     onLoad(userData, tripData)
 })
 
+const checkLogin = () => {
+    let username = document.getElementById('usernameInput').value;
+    let password = document.getElementById('password').value;
+    if (username === 'derek22' && password === 'yeh') {
+        // window.location.href = `http://localhost:8080/`
+        getUserID(username)
+        console.log("here", getUserID(username))
+        loginPage.classList.add('hidden')
+    } else {
+        document.getElementById('errorMessage').innerHTML = "Invalid username or password"
+    }
+    // Use an if statement to check if the username and password match a predefined set of credentials. If the credentials match, use window.location.href to redirect the user to a different page, such as the homepage. If the credentials do not match, display an error message to the user.
+}
+
+const getUserID = (username) => {
+    return str.replace(/\D/g, '');
+}
+
+const logout = () => {
+    sessionStorage.clear();
+    window.location.href = 'http://localhost:8080/'
+}
 // traveler functions
 
 // create function that get's the users ID by the login ID in the form. 
@@ -51,7 +83,6 @@ const instantiateUser = (userData) => {
 
 const instantiateTrip = (tripData) => {
     allUserTrips = new Trips(tripData).trips
-
     return allUserTrips
 }
 
@@ -86,7 +117,7 @@ const displayTrips = (currentUser, allUserTrips, destinationsData) => {
     <p>Destination: ${destinationObj[0].destination}</p>
     <p>Date: ${currentUsersTrips[0].date}</p>
     <p>Duration: ${currentUsersTrips[0].duration} days</p>
-    <p>Travelers: ${currentUsersTrips[0].travelers} travelers</p>
+    <p>Travelers: ${currentUsersTrips[0].travelers}</p>
     <p>Status: ${currentUsersTrips[0].status}</p>
     `
 }
