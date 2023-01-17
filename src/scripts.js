@@ -20,6 +20,7 @@ const logoutButton = document.getElementById('logoutButton')
 const username = document.getElementById('usernameInput');
 const password = document.getElementById('passwordInput');
 const totalSpentDisplay = document.getElementById('totalSpentDisplay')
+const tripsDisplayContainer = document.getElementById('tripsDisplayContainer')
 
 // global variables
 let userData;
@@ -43,7 +44,7 @@ loginButton.addEventListener('click', function (event) {
             destinationsData = data[2].destinations
             createUser(userData, currentUserID)
             instantiateTrip(tripData)
-            onLoad(currentUser)
+            onLoad(currentUser, allUserTrips, destinationsData)
     })
 })
 
@@ -55,10 +56,13 @@ logoutButton.addEventListener('click', function(event) {
 // functions
 
 const checkLogin = (event) => {
-    if (username.value === 'derek22' && password.value === 'yeh') {
+    let prefix = 'traveler'
+    let num = username.value.slice(prefix.length)
+
+    console.log("NUM IS:", num)
+    if ((username.value.startsWith(prefix) && !isNaN(num)) && password.value === 'travel') {
         loginPage.classList.add('hidden')
         getUserID(username)
-        // setCurrentUser(currentUserID)
         // window.location.href = `http://localhost:8080/?uname=${username.value}&psw=${password.value}`
     } else {
         document.getElementById('errorMessage').innerHTML = "Invalid username or password"
@@ -91,33 +95,45 @@ const instantiateTrip = (tripData) => {
     return allUserTrips
 }
 
-const onLoad = (currentUser) => {
-    // console.log('INSIDE ONLOAD currentUser:', currentUser)
-    // console.log("THIS SHOULD BE A NUMBER")
-    // console.log("inside onLoad fx:", currentUserID)
+const onLoad = (currentUser, allUserTrips, destinationsData) => {
     welcomeMessage.innerText = `Hello, ${currentUser.name}`
-    displayTrips(currentUser, destinationsData)
+    displayMoneySpent()
+    displayTrips(currentUserID, allUserTrips, destinationsData)
 }
 
-const displayTrips = (currentUser, allUserTrips, destinationsData) => {
-
+const displayMoneySpent = () => {
     currentUsersTrips = allUserTrips.filter(trip => {
         return trip.userID === currentUserID
     })
-    console.log("LOOK HERE currentUsersTrips", currentUsersTrips)
-    const destinationObj = destinationsData.filter(destination => {
-        return destination.id === currentUsersTrips[currentUser.id].destinationID
+    console.log(currentUsersTrips)
+    totalSpentDisplay.innerText += `${10}`
+}
+
+const displayTrips = (currentUserID, allUserTrips, destinationsData) => {
+    currentUsersTrips = allUserTrips.filter(trip => {
+        return trip.userID === currentUserID
     })
 
-    tripWidget1.innerHTML += `
-    <p>Destination: ${destinationObj[0].destination}</p>
-    <p>Date: ${currentUsersTrips[0].date}</p>
-    <p>Duration: ${currentUsersTrips[0].duration} days</p>
-    <p>Travelers: ${currentUsersTrips[0].travelers}</p>
-    <p>Status: ${currentUsersTrips[0].status}</p>
-    `
+    const idsArray = currentUsersTrips.map(userTrip => {
+        return userTrip.destinationID
+    });
+
+    let childElements = tripsDisplayContainer.children;
+
+    for(let i = 0; i < childElements.length; i++) {
+        let reduced = destinationsData.filter(destinationTrip => {
+            return destinationTrip.id === idsArray[i]
+        })
+
+        childElements[i].innerHTML = `
+            <p>Destination: ${reduced[i].destination}</p>
+            <p>Date: ${currentUsersTrips[i].date}</p>
+            <p>Duration: ${currentUsersTrips[i].duration} days</p>
+            <p>Travelers: ${currentUsersTrips[i].travelers}</p>
+            <p>Status: ${currentUsersTrips[i].status}</p>
+        `
+    }
+
 }
 
 // function to make a trip request (select date, duration, num of travelers and list of destinations)
-
-// 
