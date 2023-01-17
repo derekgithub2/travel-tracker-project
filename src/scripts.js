@@ -19,10 +19,9 @@ const loginPage = document.getElementById('loginPage')
 const logoutButton = document.getElementById('logoutButton')
 const username = document.getElementById('usernameInput');
 const password = document.getElementById('passwordInput');
+const totalSpentDisplay = document.getElementById('totalSpentDisplay')
 
 // global variables
-let value
-let match
 let userData;
 let tripData;
 let currentUser;
@@ -39,13 +38,13 @@ loginButton.addEventListener('click', function (event) {
 
     Promise.all([fetchData('travelers'), fetchData('trips'), fetchData('destinations')])
         .then((data) => {
+            // console.log('in Promise')
             userData = data[0].travelers
             tripData = data[1].trips
             destinationsData = data[2].destinations
-            instantiateUser(userData)
+            createUser(userData, currentUserID)
             instantiateTrip(tripData)
-            getUserID(currentUserID)
-            onLoad(allUsers)
+            onLoad(allUsers, currentUserID)
     })
     
 })
@@ -61,7 +60,8 @@ const checkLogin = (event) => {
     if (username.value === 'derek22' && password.value === 'yeh') {
         loginPage.classList.add('hidden')
         getUserID(username)
-        window.
+        // setCurrentUser(currentUserID)
+        // window.location.href = `http://localhost:8080/?uname=${username.value}&psw=${password.value}`
     } else {
         document.getElementById('errorMessage').innerHTML = "Invalid username or password"
     }
@@ -69,20 +69,31 @@ const checkLogin = (event) => {
 }
 
 const getUserID = (input) => {
-    value = input.value
-    match = value.match(/(\d+)/);
-    currentUserID = match[0]
+    let value = input.value
+    let match = value.match(/(\d+)/);
+    currentUserID = parseInt(match[0])
     return currentUserID
 }
+
+// const setCurrentUser = (currentUserID) => {
+    
+// }
 
 const logout = () => {
     sessionStorage.clear();
     window.location.href = 'http://localhost:8080/'
 }
 
-const instantiateUser = (userData) => { 
-    allUsers = new User(userData)
-    return allUsers
+const createUser = (userData, currentUserID) => { 
+    console.log("inside createUser:", userData)
+    console.log("currentUserID inside createUser:", currentUserID)
+    console.log("not GUS yet:", currentUser)
+
+    currentUser = userData.find(user => {
+        return user.id === currentUserID
+    })
+    console.log("HELLOOOO IS THIS GUS?", currentUser)
+    return currentUser
 }
 
 const instantiateTrip = (tripData) => {
@@ -93,7 +104,7 @@ const instantiateTrip = (tripData) => {
 const onLoad = (allUsers) => {
     console.log('allUsers', allUsers)
     console.log("THIS SHOULD BE A NUMBER")
-    console.log("currentUserID=", currentUserID)
+    console.log("inside onLoad fx:", currentUserID)
     // currentUser = userData.filter(user => {
     //     return user.id === currentUserID
     // })
