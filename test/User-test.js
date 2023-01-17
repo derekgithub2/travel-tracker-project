@@ -47,6 +47,7 @@ describe('User', function() {
   })
 
   it('should have an id', function () {
+
     expect(user1.id).to.equal(1)
   })
 

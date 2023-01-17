@@ -103,12 +103,17 @@ main {
 
 .widget {
   display: flex;
+  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  height: 20vh;
+  align-items: stretch;
+  height: 25vh;
   width: 20vw;
 }
 
 .hidden {
   display: none;
 }
+
+/* .destination-image {
+  size: 10px;
+} */
