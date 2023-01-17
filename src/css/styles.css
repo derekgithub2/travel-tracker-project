@@ -29,8 +29,12 @@ main {
   background-color: white;
 }
 
+h1 {
+  font-size: 48px;
+}
+
 .user-icon {
-  position: absolute;
+  /* position: absolute; */
   right: 12%;
   height: 40px;
 }
@@ -43,14 +47,25 @@ main {
   width: 100vw;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
-  padding: 20em 0px;
+  padding: 17em 0px;
   background-color: white;
 }
 
 .login-button {
   color:black;
+  width: 10em;
+  background-color: aquamarine;
+  padding: 14px 20px;
+  margin: 8px 0;
+  cursor: pointer;
+  border: 1px solid black;
+  border-radius: 2em;
+}
+
+button:hover {
+  opacity: 0.8;
 }
 
 /* Remove these borders */
@@ -74,8 +89,9 @@ main {
   padding: 20em 1px 20em;
 }
 
-.button {
+.side-button {
   height: 50px;
+  cursor: pointer;
 }
 
 .big-right-container {
@@ -96,6 +112,7 @@ main {
 .logout-button {
   width: 100px;
   color: black;
+  cursor: pointer;
 }
 
 .middle-section {
@@ -120,22 +137,6 @@ main {
   align-items: stretch;
   height: 25vh;
   width: 20vw;
-}
-
-button {
-  background-color: aquamarine;
-  color: white;
-  padding: 14px 20px;
-  margin: 8px 0;
-  border: none;
-  cursor: pointer;
-  width: 20%;
-  border: 1px solid black;
-  border-radius: 2em;
-}
-
-button:hover {
-  opacity: 0.8;
 }
 
 .hidden {

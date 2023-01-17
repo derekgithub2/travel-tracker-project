@@ -21,6 +21,8 @@ const username = document.getElementById('usernameInput');
 const password = document.getElementById('passwordInput');
 
 // global variables
+let value
+let match
 let userData;
 let tripData;
 let currentUser;
@@ -42,8 +44,10 @@ loginButton.addEventListener('click', function (event) {
             destinationsData = data[2].destinations
             instantiateUser(userData)
             instantiateTrip(tripData)
-            onLoad(userData, tripData)
-        })
+            getUserID(currentUserID)
+            onLoad(allUsers)
+    })
+    
 })
 
 logoutButton.addEventListener('click', function(event) {
@@ -57,17 +61,17 @@ const checkLogin = (event) => {
     if (username.value === 'derek22' && password.value === 'yeh') {
         loginPage.classList.add('hidden')
         getUserID(username)
+        window.
     } else {
-        console.log('try again')
         document.getElementById('errorMessage').innerHTML = "Invalid username or password"
     }
     event.preventDefault();
 }
 
 const getUserID = (input) => {
-    let value = input.value
-    const match = value.match(/(\d+)/);
-    const currentUserID = match[0]
+    value = input.value
+    match = value.match(/(\d+)/);
+    currentUserID = match[0]
     return currentUserID
 }
 
@@ -86,24 +90,21 @@ const instantiateTrip = (tripData) => {
     return allUserTrips
 }
 
-
-
-//HERE - figure out why currentUserID is not being stored globally. need to do this to use the ID in downstream functions. 
-
-
-
-
 const onLoad = (allUsers) => {
     console.log('allUsers', allUsers)
     console.log("THIS SHOULD BE A NUMBER")
-    // console.log("currentUserID=", currentUserID)
+    console.log("currentUserID=", currentUserID)
     // currentUser = userData.filter(user => {
     //     return user.id === currentUserID
     // })
-    welcomeMessage.innerText = `Hello, ${allUsers[22].name}`
+    welcomeMessage.innerText = `Hello, ${allUsers[currentUserID].name}`
     // displayDashboard() --- money spent etc
-    // displayTrips(currentUser, destinationsData)
+    displayTrips(currentUser, destinationsData)
 }
+
+// displayDashboard = () => {
+
+// }
 
 const displayTrips = (currentUser, allUserTrips, destinationsData) => {
 
