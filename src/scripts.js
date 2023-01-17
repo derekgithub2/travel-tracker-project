@@ -25,6 +25,7 @@ let userData;
 let tripData;
 let currentUser;
 let currentUserID;
+let allUsers;
 let allUserTrips;
 let destinationsData;
 let currentUsersTrips;
@@ -33,6 +34,16 @@ let currentUsersTrips;
 loginButton.addEventListener('click', function (event) {
     event.preventDefault();
     checkLogin(event);
+
+    Promise.all([fetchData('travelers'), fetchData('trips'), fetchData('destinations')])
+        .then((data) => {
+            userData = data[0].travelers
+            tripData = data[1].trips
+            destinationsData = data[2].destinations
+            instantiateUser(userData)
+            instantiateTrip(tripData)
+            onLoad(userData, tripData)
+        })
 })
 
 logoutButton.addEventListener('click', function(event) {
@@ -41,16 +52,6 @@ logoutButton.addEventListener('click', function(event) {
 })
 
 // functions
-
-Promise.all([fetchData('travelers'), fetchData('trips'), fetchData('destinations')])
-.then((data) => {
-    userData = data[0].travelers
-    tripData = data[1].trips
-    destinationsData = data[2].destinations
-    instantiateUser(userData)
-    instantiateTrip(tripData)
-    onLoad(userData, tripData)
-})
 
 const checkLogin = (event) => {
     if (username.value === 'derek22' && password.value === 'yeh') {
@@ -65,7 +66,8 @@ const checkLogin = (event) => {
 
 const getUserID = (input) => {
     let value = input.value
-    currentUserID = value.match(/(\d+)/, '');
+    const match = value.match(/(\d+)/);
+    const currentUserID = match[0]
     return currentUserID
 }
 
@@ -74,12 +76,9 @@ const logout = () => {
     window.location.href = 'http://localhost:8080/'
 }
 
-// create function that get's the users ID by the login ID in the form. 
 const instantiateUser = (userData) => { 
-
-    currentUser = userData[0]
-    const currentUserID = currentUser.id
-    return currentUser, currentUserID
+    allUsers = new User(userData)
+    return allUsers
 }
 
 const instantiateTrip = (tripData) => {
@@ -87,10 +86,23 @@ const instantiateTrip = (tripData) => {
     return allUserTrips
 }
 
-const onLoad = (userData, tripData) => {
-    welcomeMessage.innerText = `Hello, ${currentUser.name}`
+
+
+//HERE - figure out why currentUserID is not being stored globally. need to do this to use the ID in downstream functions. 
+
+
+
+
+const onLoad = (allUsers) => {
+    console.log('allUsers', allUsers)
+    console.log("THIS SHOULD BE A NUMBER")
+    // console.log("currentUserID=", currentUserID)
+    // currentUser = userData.filter(user => {
+    //     return user.id === currentUserID
+    // })
+    welcomeMessage.innerText = `Hello, ${allUsers[22].name}`
     // displayDashboard() --- money spent etc
-    displayTrips(currentUser, tripData, destinationsData)
+    // displayTrips(currentUser, destinationsData)
 }
 
 const displayTrips = (currentUser, allUserTrips, destinationsData) => {
@@ -98,11 +110,9 @@ const displayTrips = (currentUser, allUserTrips, destinationsData) => {
     currentUsersTrips = allUserTrips.filter(trip => {
         return trip.userID === currentUser.id
     })
-
-    // console.log(currentUsersTrips)
-
+    console.log("LOOK HERE", currentUser)
     const destinationObj = destinationsData.filter(destination => {
-        return destination.id === currentUsersTrips[0].destinationID
+        return destination.id === currentUsersTrips[currentUser.id].destinationID
     })
 
     //iterate through allUserTrips and return the trips for just 1 user this is probably written in Trips class or User class
