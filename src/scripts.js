@@ -14,81 +14,126 @@ import Trips from './Trips';
 // query selectors
 const welcomeMessage = document.getElementById('welcomeMessage')
 const tripWidget1 = document.getElementById('tripWidget1')
-
+const loginButton = document.getElementById('loginButton')
+const loginPage = document.getElementById('loginPage')
+const logoutButton = document.getElementById('logoutButton')
+const username = document.getElementById('usernameInput');
+const password = document.getElementById('passwordInput');
+const totalSpentDisplay = document.getElementById('totalSpentDisplay')
+const tripsDisplayContainer = document.getElementById('tripsDisplayContainer')
 
 // global variables
 let userData;
 let tripData;
 let currentUser;
+let currentUserID;
 let allUserTrips;
 let destinationsData;
 let currentUsersTrips;
 
 // event listeners
+loginButton.addEventListener('click', function (event) {
+    event.preventDefault();
+    checkLogin(event);
 
+    Promise.all([fetchData('travelers'), fetchData('trips'), fetchData('destinations')])
+        .then((data) => {
+            // console.log('in Promise')
+            userData = data[0].travelers
+            tripData = data[1].trips
+            destinationsData = data[2].destinations
+            createUser(userData, currentUserID)
+            instantiateTrip(tripData)
+            onLoad(currentUser, allUserTrips, destinationsData)
+    })
+})
+
+logoutButton.addEventListener('click', function(event) {
+    event.preventDefault();
+    logout();
+})
 
 // functions
 
-Promise.all([fetchData('travelers'), fetchData('trips'), fetchData('destinations')])
-.then((data) => {
-    userData = data[0].travelers
-    tripData = data[1].trips
-    destinationsData = data[2].destinations
-    instantiateUser(userData)
-    instantiateTrip(tripData)
-    onLoad(userData, tripData)
-})
+const checkLogin = (event) => {
+    let prefix = 'traveler'
+    let num = username.value.slice(prefix.length)
 
-// traveler functions
+    console.log("NUM IS:", num)
+    if ((username.value.startsWith(prefix) && !isNaN(num)) && password.value === 'travel') {
+        loginPage.classList.add('hidden')
+        getUserID(username)
+        // window.location.href = `http://localhost:8080/?uname=${username.value}&psw=${password.value}`
+    } else {
+        document.getElementById('errorMessage').innerHTML = "Invalid username or password"
+    }
+    event.preventDefault();
+}
 
-// create function that get's the users ID by the login ID in the form. 
-const instantiateUser = (userData) => { 
+const getUserID = (input) => {
+    let value = input.value
+    let match = value.match(/(\d+)/);
+    currentUserID = parseInt(match[0])
+    return currentUserID
+}
 
-    currentUser = userData[0]
-    const currentUserID = currentUser.id
-    return currentUser, currentUserID
+const logout = () => {
+    sessionStorage.clear();
+    window.location.href = 'http://localhost:8080/'
+}
+
+const createUser = (userData, currentUserID) => { 
+    currentUser = userData.find(user => {
+        return user.id === currentUserID
+    })
+    return currentUser
+    // currentUser is an object
 }
 
 const instantiateTrip = (tripData) => {
     allUserTrips = new Trips(tripData).trips
-
     return allUserTrips
 }
 
-const onLoad = (userData, tripData) => {
-    // setCurrentUser(userData)
+const onLoad = (currentUser, allUserTrips, destinationsData) => {
     welcomeMessage.innerText = `Hello, ${currentUser.name}`
-    // displayDashboard() --- money spent etc
-    displayTrips(currentUser, tripData, destinationsData)
+    displayMoneySpent()
+    displayTrips(currentUserID, allUserTrips, destinationsData)
 }
 
-const setCurrentUser = (userData) => {
-    // make this dynamic so that it takes in what was inputted in login form. 
-    return currentUser
-}
-
-const displayTrips = (currentUser, allUserTrips, destinationsData) => {
-
+const displayMoneySpent = () => {
     currentUsersTrips = allUserTrips.filter(trip => {
-        return trip.userID === currentUser.id
+        return trip.userID === currentUserID
+    })
+    console.log(currentUsersTrips)
+    totalSpentDisplay.innerText += `${10}`
+}
+
+const displayTrips = (currentUserID, allUserTrips, destinationsData) => {
+    currentUsersTrips = allUserTrips.filter(trip => {
+        return trip.userID === currentUserID
     })
 
-    const destinationObj = destinationsData.filter(destination => {
-        return destination.id === currentUsersTrips[0].destinationID
-    })
+    const idsArray = currentUsersTrips.map(userTrip => {
+        return userTrip.destinationID
+    });
 
-    //iterate through allUserTrips and return the trips for just 1 user this is probably written in Trips class or User class
-    // use this function to display data 
+    let childElements = tripsDisplayContainer.children;
 
-    tripWidget1.innerHTML += `
-    <p>Destination: ${destinationObj[0].destination}</p>
-    <p>Date: ${currentUsersTrips[0].date}</p>
-    <p>Duration: ${currentUsersTrips[0].duration} days</p>
-    <p>Travelers: ${currentUsersTrips[0].travelers} travelers</p>
-    <p>Status: ${currentUsersTrips[0].status}</p>
-    `
+    for(let i = 0; i < childElements.length; i++) {
+        let reduced = destinationsData.filter(destinationTrip => {
+            return destinationTrip.id === idsArray[i]
+        })
+
+        childElements[i].innerHTML = `
+            <p>Destination: ${reduced[i].destination}</p>
+            <p>Date: ${currentUsersTrips[i].date}</p>
+            <p>Duration: ${currentUsersTrips[i].duration} days</p>
+            <p>Travelers: ${currentUsersTrips[i].travelers}</p>
+            <p>Status: ${currentUsersTrips[i].status}</p>
+        `
+    }
+
 }
 
 // function to make a trip request (select date, duration, num of travelers and list of destinations)
-
-// 

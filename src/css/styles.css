@@ -29,17 +29,43 @@ main {
   background-color: white;
 }
 
+h1 {
+  font-size: 48px;
+}
+
+.user-icon {
+  /* position: absolute; */
+  right: 12%;
+  height: 40px;
+}
+
 .login-page,
-.login-form {
+.login-form,
+.login-container {
   position: absolute;
-  top: 20%;
-  height: 25vh;
-  width: 90vw;
+  height: 100vh;
+  width: 100vw;
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: space-around;
   align-items: center;
-  padding: 5px;
+  padding: 17em 0px;
+  background-color: white;
+}
+
+.login-button {
+  color:black;
+  width: 10em;
+  background-color: aquamarine;
+  padding: 14px 20px;
+  margin: 8px 0;
+  cursor: pointer;
+  border: 1px solid black;
+  border-radius: 2em;
+}
+
+button:hover {
+  opacity: 0.8;
 }
 
 /* Remove these borders */
@@ -48,7 +74,8 @@ main {
 .top-nav-bar,
 .middle-section,
 .bottom-right-container,
-.widget {
+.widget, 
+.login-container {
   border: 1px solid black;
   border-radius: 2px;
 }
@@ -62,8 +89,9 @@ main {
   padding: 20em 1px 20em;
 }
 
-.button {
+.side-button {
   height: 50px;
+  cursor: pointer;
 }
 
 .big-right-container {
@@ -81,16 +109,18 @@ main {
   align-items: center;
 }
 
-.login-icon {
-  height: 40px;
+.logout-button {
+  width: 100px;
+  color: black;
+  cursor: pointer;
 }
 
 .middle-section {
   display: flex;
+  align-items: flex-start;
   height: 15vh;
   margin-top: 20px;
 }
-
 
 .bottom-right-container {
   height: 75vh;
