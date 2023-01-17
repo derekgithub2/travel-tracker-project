@@ -20,9 +20,9 @@ const tripWidget1 = document.getElementById('tripWidget1')
 let userData;
 let tripData;
 let currentUser;
-let userTrips;
+let allUserTrips;
 let destinationsData;
-
+let currentUsersTrips;
 
 // event listeners
 
@@ -34,7 +34,7 @@ Promise.all([fetchData('travelers'), fetchData('trips'), fetchData('destinations
     userData = data[0].travelers
     tripData = data[1].trips
     destinationsData = data[2].destinations
-    instantiateTraveler(userData)
+    instantiateUser(userData)
     instantiateTrip(tripData)
     onLoad(userData, tripData)
 })
@@ -42,52 +42,50 @@ Promise.all([fetchData('travelers'), fetchData('trips'), fetchData('destinations
 // traveler functions
 
 // create function that get's the users ID by the login ID in the form. 
+const instantiateUser = (userData) => { 
 
-const onLoad = (userData, tripData) => {
-    setCurrentUser(userData)
-    // displayDashboard() --- money spent etc
-    displayAllTrips(currentUser, tripData, destinationsData)
-}
-
-const setCurrentUser = (userData) => {
     currentUser = userData[0]
-    welcomeMessage.innerText = `Hello, ${currentUser.name}`
-    // make this dynamic so that it takes in what was inputted in login form. 
-}
-
-const instantiateTraveler = (userData) => { 
-    return new User(userData)
+    const currentUserID = currentUser.id
+    return currentUser, currentUserID
 }
 
 const instantiateTrip = (tripData) => {
-    userTrips = new Trips(tripData)
-    // console.log("currentUser: ", currentUser)
+    allUserTrips = new Trips(tripData).trips
 
+    return allUserTrips
 }
 
-const displayAllTrips = (currentUser, userTrips, destinationsData) => {
-    // console.log("LOOK HERE", currentUser)
-    // console.log("userTrips: ", userTrips)
-    // console.log("destinationsData", destinationsData)
+const onLoad = (userData, tripData) => {
+    // setCurrentUser(userData)
+    welcomeMessage.innerText = `Hello, ${currentUser.name}`
+    // displayDashboard() --- money spent etc
+    displayTrips(currentUser, tripData, destinationsData)
+}
 
-    let currentUserID = currentUser.id
+const setCurrentUser = (userData) => {
+    // make this dynamic so that it takes in what was inputted in login form. 
+    return currentUser
+}
 
-    console.log(userTrips.getUserTrips(currentUserID))
+const displayTrips = (currentUser, allUserTrips, destinationsData) => {
 
-    // let destinationID = desinationsData.destinationID
-    // const destinationObj = destinationsData.find(destination => {
-    //     return destination.id === userTrips[]
-    // })
+    currentUsersTrips = allUserTrips.filter(trip => {
+        return trip.userID === currentUser.id
+    })
 
-    //iterate through userTrips and return the trips for just 1 user this is probably written in Trips class or User class
+    const destinationObj = destinationsData.filter(destination => {
+        return destination.id === currentUsersTrips[0].destinationID
+    })
+
+    //iterate through allUserTrips and return the trips for just 1 user this is probably written in Trips class or User class
     // use this function to display data 
 
-    tripWidget1.innerHTML = `
-    <p>Destination: ${userTrips[currentUserID].destinationID}</p>
-    <p>Date: </p>
-    <p>Duration: </p>
-    <p>Travelers: </p>
-    <p>Status: </p>
+    tripWidget1.innerHTML += `
+    <p>Destination: ${destinationObj[0].destination}</p>
+    <p>Date: ${currentUsersTrips[0].date}</p>
+    <p>Duration: ${currentUsersTrips[0].duration} days</p>
+    <p>Travelers: ${currentUsersTrips[0].travelers} travelers</p>
+    <p>Status: ${currentUsersTrips[0].status}</p>
     `
 }
 
