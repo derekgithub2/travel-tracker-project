@@ -123,21 +123,24 @@ button:hover {
 
 .middle-section,
 .total-spent-display {
-  height: 25vh;
+  height: 30vh;
   margin-top: 20px;
   display: flex;
   align-items: center;
-  /* flex-direction: column; */
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 
 .total-spent-display {
-  width: 33%;
+  width: 35%;
+  font-size: x-large;
+  padding-right: 13em;
   justify-items: center;
+  align-items: center;
 }
 
 .trip-request-form {
-
+  display: flex;
+  flex-direction: column;
 }
 
 .footnote {
@@ -151,6 +154,7 @@ button:hover {
   flex-wrap: wrap;
   justify-content: space-evenly;
   align-items: center;
+  background-color:darkgrey;
 }
 
 .widget {
@@ -158,8 +162,9 @@ button:hover {
   flex-direction: column;
   justify-content: center;
   align-items: stretch;
-  height: 25vh;
+  height: 40vh;
   width: 20vw;
+  background-color:beige;
 }
 
 .hidden {
@@ -167,5 +172,7 @@ button:hover {
 }
 
 .destination-image {
-  size: 10px;
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
 }

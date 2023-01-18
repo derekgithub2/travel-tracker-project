@@ -1,10 +1,4 @@
-// This is the JavaScript entry file - your code begins here
-// Do not delete or rename this file ********
-
-// An example of how you tell webpack to use a CSS (SCSS) file
 import './css/styles.css';
-
-// An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/flight-icon.png'
 import { fetchData } from '../src/apiCalls'
 import Trips from './Trips';
@@ -31,7 +25,7 @@ let currentUserDestinations
 let idsArray
 const dayjs = require('dayjs')
 //import dayjs from 'dayjs' // ES 2015
-// dayjs().format()
+dayjs().format()
 
 // EVENT LISTENERS
 loginButton.addEventListener('click', function (event) {
@@ -107,16 +101,11 @@ const onLoad = (currentUser, allUserTrips, destinationsData) => {
 const displayMoneySpent = (allUserTrips, destinationsData) => {
     
     currentUsersTrips = allUserTrips.filter(trip => {
-        return trip.userID === currentUserID
-    })
-
+        return trip.userID === currentUserID})
     let idsArray = currentUsersTrips.map(userTrip => {
-        return userTrip.destinationID
-    });
-
+        return userTrip.destinationID});
     let usersDestinations = destinationsData.filter(destinationTrip => {
-        return destinationTrip.id === idsArray[0]
-    })
+        return destinationTrip.id === idsArray[0]})
 
     totalSpentDisplay.innerText += `
         $${(usersDestinations[0].estimatedLodgingCostPerDay)*(currentUsersTrips[0].duration)+(usersDestinations[0].estimatedFlightCostPerPerson)*(currentUsersTrips[0].travelers)*(1.1)}*`
@@ -125,9 +114,7 @@ const displayMoneySpent = (allUserTrips, destinationsData) => {
 const getDestinationsArray = (currentUserID, allUserTrips, destinationsData) => {
 
     currentUsersTrips = allUserTrips.filter(trip => {
-        return trip.userID === currentUserID
-    })
-
+        return trip.userID === currentUserID})
     let destinationsArray = destinationsData.filter(destination => {
         let array = []
 
@@ -151,6 +138,7 @@ const displayTrips = (currentUserID, allUserTrips, destinationsData) => {
     let childElements = tripsDisplayContainer.children;
     Array.from(childElements).forEach(function(childElement, index) {
         childElement.innerHTML = `
+            <img id="destination-image" src="${currentUserDestinations[index].image}" alt="${currentUserDestinations[index].alt}">
             <p>Destination: ${currentUserDestinations[index].destination}</p>
             <p>Date: ${currentUsersTrips[index].date}</p>
             <p>Duration: ${currentUsersTrips[index].duration} days</p>
