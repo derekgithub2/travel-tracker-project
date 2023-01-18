@@ -102,15 +102,15 @@ button:hover {
   padding: 20px;
 }
 
-.top-nav-bar {
+.top-nav-bar,
+.top-nav-right-container {
   padding: 10px;
   display: flex;
-  justify-content: space-between;
+  justify-content: space-around;
   align-items: center;
 }
 
 .logo-icon {
-  padding-left: 65%;
   height: 40px;
   color:black;
 }
@@ -138,9 +138,21 @@ button:hover {
   align-items: center;
 }
 
+.trip-request-container {
+  height: 15em;
+  width: 15em;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  justify-content: space-evenly;
+}
+
 .trip-request-form {
   display: flex;
   flex-direction: column;
+  border: 1px solid black;
+  justify-content: space-around;
+  padding:1px;
 }
 
 .footnote {
