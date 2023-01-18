@@ -11,7 +11,7 @@ import User from "./User"
 import { fetchData } from '../src/apiCalls'
 import Trips from './Trips';
 
-// query selectors
+// QUERY SELECTORS
 const welcomeMessage = document.getElementById('welcomeMessage')
 const tripWidget1 = document.getElementById('tripWidget1')
 const loginButton = document.getElementById('loginButton')
@@ -22,7 +22,7 @@ const password = document.getElementById('passwordInput');
 const totalSpentDisplay = document.getElementById('totalSpentDisplay')
 const tripsDisplayContainer = document.getElementById('tripsDisplayContainer')
 
-// global variables
+// GLOBAL VARIABLES
 let userData;
 let tripData;
 let currentUser;
@@ -30,15 +30,17 @@ let currentUserID;
 let allUserTrips;
 let destinationsData;
 let currentUsersTrips;
+const dayjs = require('dayjs')
+//import dayjs from 'dayjs' // ES 2015
+// dayjs().format()
 
-// event listeners
+// EVENT LISTENERS
 loginButton.addEventListener('click', function (event) {
     event.preventDefault();
     checkLogin(event);
 
     Promise.all([fetchData('travelers'), fetchData('trips'), fetchData('destinations')])
         .then((data) => {
-            // console.log('in Promise')
             userData = data[0].travelers
             tripData = data[1].trips
             destinationsData = data[2].destinations
@@ -53,13 +55,12 @@ logoutButton.addEventListener('click', function(event) {
     logout();
 })
 
-// functions
+// FUNCTIONS
 
 const checkLogin = (event) => {
     let prefix = 'traveler'
     let num = username.value.slice(prefix.length)
 
-    console.log("NUM IS:", num)
     if ((username.value.startsWith(prefix) && !isNaN(num)) && password.value === 'travel') {
         loginPage.classList.add('hidden')
         getUserID(username)
@@ -97,16 +98,61 @@ const instantiateTrip = (tripData) => {
 
 const onLoad = (currentUser, allUserTrips, destinationsData) => {
     welcomeMessage.innerText = `Hello, ${currentUser.name}`
-    displayMoneySpent()
+
+
+    getUserDestinations(currentUserID, allUserTrips, destinationsData)
+
+
+    displayMoneySpent(allUserTrips, destinationsData)
     displayTrips(currentUserID, allUserTrips, destinationsData)
 }
 
-const displayMoneySpent = () => {
+const displayMoneySpent = (allUserTrips, destinationsData) => {
+    
     currentUsersTrips = allUserTrips.filter(trip => {
         return trip.userID === currentUserID
     })
-    console.log(currentUsersTrips)
-    totalSpentDisplay.innerText += `${10}`
+    console.log("currentUsersTrips", currentUsersTrips)
+
+    let idsArray = currentUsersTrips.map(userTrip => {
+        return userTrip.destinationID
+    });
+
+    let usersDestinations = destinationsData.filter(destinationTrip => {
+        // idsArray.forEach(el => {
+        //     if (destinationTrip.id === idsArray[el]){
+        //         usersDestinations.push(destinationTrip)
+        //     }
+        // })
+        return destinationTrip.id === idsArray[0]
+    })
+    console.log("usersDestinations array", usersDestinations)
+
+    totalSpentDisplay.innerText += `
+        $${(usersDestinations[0].estimatedLodgingCostPerDay)+(usersDestinations[0].estimatedFlightCostPerPerson)*(1.1)}`
+}
+
+//need function to get an array of destinations for current user
+// will need destinationsData, currentUserID
+
+const getUserDestinations = (currentUserID, allUserTrips, destinationsData) => {
+
+    currentUsersTrips = allUserTrips.filter(trip => {
+        return trip.userID === currentUserID
+    })
+    // console.log("CURRENT USERS TRIPS", currentUsersTrips)
+
+    let filteredArray = destinationsData.filter(destination => {
+        let array = []
+
+        for (let i = 0; i < currentUsersTrips.length; i++) {
+            if(destination.id === currentUsersTrips[i].destinationID){
+                array.push(destination)
+            }
+        }
+        return array
+    })
+    return filteredArray
 }
 
 const displayTrips = (currentUserID, allUserTrips, destinationsData) => {
@@ -114,7 +160,7 @@ const displayTrips = (currentUserID, allUserTrips, destinationsData) => {
         return trip.userID === currentUserID
     })
 
-    const idsArray = currentUsersTrips.map(userTrip => {
+    let idsArray = currentUsersTrips.map(userTrip => {
         return userTrip.destinationID
     });
 
@@ -135,5 +181,3 @@ const displayTrips = (currentUserID, allUserTrips, destinationsData) => {
     }
 
 }
-
-// function to make a trip request (select date, duration, num of travelers and list of destinations)
