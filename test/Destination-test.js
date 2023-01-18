@@ -5,7 +5,6 @@ const expect = chai.expect;
 
 describe('User', function() {
     let user1;
-    let user2;
     const userData = [
         {
         "id": 1,
@@ -35,7 +34,6 @@ describe('User', function() {
 
     beforeEach(function() {
         user1 = new User(userData[0]);
-        user2 = new User(userData[1]);
     })
 
   it('should be a function', function() {

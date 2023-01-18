@@ -15,11 +15,9 @@ const password = document.getElementById('passwordInput');
 const totalSpentDisplay = document.getElementById('totalSpentDisplay')
 const tripsDisplayContainer = document.getElementById('tripsDisplayContainer')
 const tripRequestForm = document.getElementById('tripRequestForm')
-const destinationFormOptions = document.getElementById('destinationOptions')
 const numOfTravelersInput = document.getElementById('numOfTravelersInput')
 const numOfDaysInput = document.getElementById('numOfDaysInput')
 const dateInput = document.getElementById('dateInput')
-
 
 // GLOBAL VARIABLES
 let userData;
@@ -117,13 +115,14 @@ const onLogin = (currentUser, allUserTrips, destinationsData) => {
 
 const displayMoneySpent = (allUserTrips, destinationsData) => {
     
-    currentUsersTrips = allUserTrips.filter(trip => {
-        return trip.userID === currentUserID})
-    idsArray = currentUsersTrips.map(userTrip => {
-        return userTrip.destinationID});
+    currentUsersTrips = allUserTrips.filter(trip => trip.userID === currentUserID);
+
+    idsArray = currentUsersTrips.map(userTrip => userTrip.destinationID);
+
     let usersDestinations = destinationsData.filter(destinationTrip => {
         return destinationTrip.id === idsArray[0]})
-    let moneySpent = Math.round((usersDestinations[0].estimatedLodgingCostPerDay)*(currentUsersTrips[0].duration)+(usersDestinations[0].estimatedFlightCostPerPerson)*(currentUsersTrips[0].travelers)*(1.1))
+
+    let moneySpent = Math.round((usersDestinations[0].estimatedLodgingCostPerDay) * (currentUsersTrips[0].duration) + (usersDestinations[0].estimatedFlightCostPerPerson) * (currentUsersTrips[0].travelers) * (1.1))
 
     totalSpentDisplay.innerText += `
         $${moneySpent}*`
@@ -137,7 +136,7 @@ const getDestinationsArray = (currentUserID, allUserTrips, destinationsData) => 
         let array = []
 
         for (let i = 0; i < currentUsersTrips.length; i++) {
-            if(destination.id === currentUsersTrips[i].destinationID){
+            if (destination.id === currentUsersTrips[i].destinationID) {
                 array.push(destination)
             }
         }
@@ -176,5 +175,5 @@ const getUserDestinations = (currentUserID, allUserTrips, destinationsData) => {
 }
 
 const displayNewTrip = () => {
-    
+
 }
