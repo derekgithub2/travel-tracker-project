@@ -162,7 +162,6 @@ const displayTrips = (currentUserID, allUserTrips, destinationsData) => {
         `
     })
     return currentUserDestinations
-
 }
 
 const getUserDestinations = (currentUserID, allUserTrips, destinationsData) => {
