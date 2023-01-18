@@ -1,12 +1,11 @@
 import chai from 'chai';
-import User from '../src/User'
+import Destination from '../src/Destination'
 import Trips from '../src/Trips'
 
 const expect = chai.expect;
 
 describe('Trips', function() {
-    let user1;
-    let user2;
+
     let userID;
     let userTrip1;
     let userTrip2;
@@ -158,8 +157,6 @@ describe('Trips', function() {
         userTrip2 = new Trips(tripData[1]);
         trips = new Trips(tripData);
 
-        user1 = new User(userData[0]);
-        user2 = new User(userData[1]);
     })
 
     it('should be a function', function () {

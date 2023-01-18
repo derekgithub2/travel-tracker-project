@@ -1,5 +1,5 @@
 import chai from 'chai';
-import User from '../src/User'
+import User from '../src/Destination'
 
 const expect = chai.expect;
 

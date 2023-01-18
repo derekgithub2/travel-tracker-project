@@ -14,7 +14,8 @@ const password = document.getElementById('passwordInput');
 const totalSpentDisplay = document.getElementById('totalSpentDisplay')
 const tripsDisplayContainer = document.getElementById('tripsDisplayContainer')
 const tripRequestForm = document.getElementById('tripRequestForm')
-const 
+const destinationFormOptions = document.getElementById('desetinationOptions')
+
 
 const dayjsInput = document.getElementById('dayjsInput')
 
@@ -58,7 +59,7 @@ logoutButton.addEventListener('click', function(event) {
 
 tripRequestForm.addEventListener('submit', function(event) {
     event.preventDefault();
-    Promise.all(addNewTrip())
+    addNewTrip(tripData.length+1, currentUserID, );
 })
 
 // FUNCTIONS

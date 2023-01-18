@@ -1,4 +1,4 @@
-import User from '../src/User'
+import User from './Destination'
 
 class Trips {
     constructor (data) {
