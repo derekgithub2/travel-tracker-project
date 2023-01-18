@@ -6,14 +6,11 @@ import './css/styles.css';
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
 import './images/flight-icon.png'
-
-import User from "./User"
 import { fetchData } from '../src/apiCalls'
 import Trips from './Trips';
 
 // QUERY SELECTORS
 const welcomeMessage = document.getElementById('welcomeMessage')
-const tripWidget1 = document.getElementById('tripWidget1')
 const loginButton = document.getElementById('loginButton')
 const loginPage = document.getElementById('loginPage')
 const logoutButton = document.getElementById('logoutButton')

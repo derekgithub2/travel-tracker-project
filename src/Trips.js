@@ -10,7 +10,6 @@ class Trips {
         let filteredArr = data.filter(trip => {
             return trip.userID === userID
         })
-        // console.log("IN FX HERE:", filteredArr)
         return filteredArr
     }
 
