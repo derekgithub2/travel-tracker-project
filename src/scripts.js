@@ -5,7 +5,7 @@
 import './css/styles.css';
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/login-icon.png'
+import './images/flight-icon.png'
 
 import User from "./User"
 import { fetchData } from '../src/apiCalls'
@@ -30,6 +30,8 @@ let currentUserID;
 let allUserTrips;
 let destinationsData;
 let currentUsersTrips;
+let currentUserDestinations
+let idsArray
 const dayjs = require('dayjs')
 //import dayjs from 'dayjs' // ES 2015
 // dayjs().format()
@@ -64,7 +66,6 @@ const checkLogin = (event) => {
     if ((username.value.startsWith(prefix) && !isNaN(num)) && password.value === 'travel') {
         loginPage.classList.add('hidden')
         getUserID(username)
-        // window.location.href = `http://localhost:8080/?uname=${username.value}&psw=${password.value}`
     } else {
         document.getElementById('errorMessage').innerHTML = "Invalid username or password"
     }
@@ -88,7 +89,6 @@ const createUser = (userData, currentUserID) => {
         return user.id === currentUserID
     })
     return currentUser
-    // currentUser is an object
 }
 
 const instantiateTrip = (tripData) => {
@@ -100,8 +100,8 @@ const onLoad = (currentUser, allUserTrips, destinationsData) => {
     welcomeMessage.innerText = `Hello, ${currentUser.name}`
 
 
+    getDestinationsArray(currentUserID, allUserTrips, destinationsData)
     getUserDestinations(currentUserID, allUserTrips, destinationsData)
-
 
     displayMoneySpent(allUserTrips, destinationsData)
     displayTrips(currentUserID, allUserTrips, destinationsData)
@@ -125,14 +125,13 @@ const displayMoneySpent = (allUserTrips, destinationsData) => {
         $${(usersDestinations[0].estimatedLodgingCostPerDay)*(currentUsersTrips[0].duration)+(usersDestinations[0].estimatedFlightCostPerPerson)*(currentUsersTrips[0].travelers)*(1.1)}*`
 }
 
-const getUserDestinations = (currentUserID, allUserTrips, destinationsData) => {
+const getDestinationsArray = (currentUserID, allUserTrips, destinationsData) => {
 
     currentUsersTrips = allUserTrips.filter(trip => {
         return trip.userID === currentUserID
     })
-    // console.log("CURRENT USERS TRIPS", currentUsersTrips)
 
-    let filteredArray = destinationsData.filter(destination => {
+    let destinationsArray = destinationsData.filter(destination => {
         let array = []
 
         for (let i = 0; i < currentUsersTrips.length; i++) {
@@ -142,32 +141,34 @@ const getUserDestinations = (currentUserID, allUserTrips, destinationsData) => {
         }
         return array
     })
-    return filteredArray
+    return destinationsArray
 }
 
 const displayTrips = (currentUserID, allUserTrips, destinationsData) => {
-    currentUsersTrips = allUserTrips.filter(trip => {
-        return trip.userID === currentUserID
-    })
-
-    let idsArray = currentUsersTrips.map(userTrip => {
+    idsArray = allUserTrips.filter(trip => trip.userID === currentUserID).map(userTrip => {
         return userTrip.destinationID
     });
 
+    currentUserDestinations = destinationsData.filter(destination => idsArray.includes(destination.id))
+
     let childElements = tripsDisplayContainer.children;
-
-    for(let i = 0; i < childElements.length; i++) {
-        let reduced = destinationsData.filter(destinationTrip => {
-            return destinationTrip.id === idsArray[i]
-        })
-
-        childElements[i].innerHTML = `
-            <p>Destination: ${reduced[i].destination}</p>
-            <p>Date: ${currentUsersTrips[i].date}</p>
-            <p>Duration: ${currentUsersTrips[i].duration} days</p>
-            <p>Travelers: ${currentUsersTrips[i].travelers}</p>
-            <p>Status: ${currentUsersTrips[i].status}</p>
+    Array.from(childElements).forEach(function(childElement, index) {
+        childElement.innerHTML = `
+            <p>Destination: ${currentUserDestinations[index].destination}</p>
+            <p>Date: ${currentUsersTrips[index].date}</p>
+            <p>Duration: ${currentUsersTrips[index].duration} days</p>
+            <p>Travelers: ${currentUsersTrips[index].travelers}</p>
+            <p>Status: ${currentUsersTrips[index].status}</p>
         `
-    }
+    })
+    return currentUserDestinations
 
+}
+
+const getUserDestinations = (currentUserID, allUserTrips, destinationsData) => {
+    idsArray = allUserTrips.filter(trip => trip.userID === currentUserID).map(userTrip => {
+        return userTrip.destinationID
+    });
+
+    return currentUserDestinations = destinationsData.filter(destination => idsArray.includes(destination.id))
 }

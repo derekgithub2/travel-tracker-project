@@ -33,12 +33,6 @@ h1 {
   font-size: 48px;
 }
 
-.user-icon {
-  /* position: absolute; */
-  right: 12%;
-  height: 40px;
-}
-
 .login-page,
 .login-form,
 .login-container {
@@ -91,8 +85,12 @@ button:hover {
 .side-button {
   display: flex;
   align-items: center;
+  justify-content: center;
   height: 50px;
-  border: 1px solid black;
+  border-top: 1px solid black;
+  border-bottom: 1px solid black;
+  color:black;
+  background-color: aquamarine;
   cursor: pointer;
 }
 
@@ -109,6 +107,14 @@ button:hover {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.logo-icon {
+  /* position: absolute; */
+  /* right: 10%; */
+  height: 40px;
+  color:black;
+  /* background-color: aquamarine; */
 }
 
 .logout-button {
@@ -158,6 +164,6 @@ button:hover {
   display: none;
 }
 
-/* .destination-image {
+.destination-image {
   size: 10px;
-} */
+}
