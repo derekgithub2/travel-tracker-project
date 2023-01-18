@@ -3,6 +3,7 @@ import './images/flight-icon.png'
 import { fetchData } from '../src/apiCalls'
 import { addNewTrip } from '../src/apiCalls';
 import Trips from './Trips';
+import Destinations from './Destination';
 
 // QUERY SELECTORS
 const welcomeMessage = document.getElementById('welcomeMessage')
@@ -14,7 +15,10 @@ const password = document.getElementById('passwordInput');
 const totalSpentDisplay = document.getElementById('totalSpentDisplay')
 const tripsDisplayContainer = document.getElementById('tripsDisplayContainer')
 const tripRequestForm = document.getElementById('tripRequestForm')
-const destinationFormOptions = document.getElementById('desetinationOptions')
+const destinationFormOptions = document.getElementById('destinationOptions')
+const numOfTravelersInput = document.getElementById('numOfTravelersInput')
+const numOfDaysInput = document.getElementById('numOfDaysInput')
+const dateInput = document.getElementById('dateInput')
 
 
 const dayjsInput = document.getElementById('dayjsInput')
@@ -26,15 +30,17 @@ let currentUser;
 let currentUserID;
 let allUserTrips;
 let destinationsData;
+let allDestinations
 let currentUsersTrips;
 let currentUserDestinations;
 let idsArray;
+let pendingTrips = [];
 
 const dayjs = require('dayjs')
 //import dayjs from 'dayjs' // ES 2015
 dayjs().format()
 
-dayjsInput.value = dayjs().startOf('month').add(1, 'day').set('year', 2018).format('YYYY-MM-DD HH:mm:ss');
+// dayjsInput.value = dayjs().startOf('month').add(1, 'day').set('year', 2018).format('YYYY-MM-DD HH:mm:ss');
 
 // EVENT LISTENERS
 loginButton.addEventListener('click', function (event) {
@@ -48,7 +54,8 @@ loginButton.addEventListener('click', function (event) {
             destinationsData = data[2].destinations
             createUser(userData, currentUserID)
             instantiateTrip(tripData)
-            onLoad(currentUser, allUserTrips, destinationsData)
+            instantiateDestinations(destinationsData)
+            onLogin(currentUser, allUserTrips, destinationsData)
     })
 })
 
@@ -59,7 +66,8 @@ logoutButton.addEventListener('click', function(event) {
 
 tripRequestForm.addEventListener('submit', function(event) {
     event.preventDefault();
-    addNewTrip(tripData.length+1, currentUserID, );
+    addNewTrip(tripData.length+1, currentUserID, destinationsData.id, numOfTravelersInput.value, dateInput.value, numOfDaysInput.value, 'pending', []);
+    // displayNewTrip();
 })
 
 // FUNCTIONS
@@ -101,13 +109,16 @@ const instantiateTrip = (tripData) => {
     return allUserTrips
 }
 
-const onLoad = (currentUser, allUserTrips, destinationsData) => {
-    welcomeMessage.innerText = `Hello, ${currentUser.name}`
+const instantiateDestinations = (destinationsData) => {
+    allDestinations = new Destinations(destinationsData)
+    return allDestinations
+}
 
+const onLogin = (currentUser, allUserTrips, destinationsData) => {
+    welcomeMessage.innerText = `Hello, ${currentUser.name}`
 
     getDestinationsArray(currentUserID, allUserTrips, destinationsData)
     getUserDestinations(currentUserID, allUserTrips, destinationsData)
-
     displayMoneySpent(allUserTrips, destinationsData)
     displayTrips(currentUserID, allUserTrips, destinationsData)
 }
@@ -151,7 +162,7 @@ const displayTrips = (currentUserID, allUserTrips, destinationsData) => {
 
     let childElements = tripsDisplayContainer.children;
     Array.from(childElements).forEach(function(childElement, index) {
-        childElement.innerHTML = `
+        childElement.innerHTML += `
             <img id="destination-image" src="${currentUserDestinations[index].image}" alt="${currentUserDestinations[index].alt}">
             <p>Destination: ${currentUserDestinations[index].destination}</p>
             <p>Date: ${currentUsersTrips[index].date}</p>
