@@ -37,13 +37,13 @@ h1 {
 .login-form,
 .login-container {
   position: absolute;
-  height: 100vh;
+  height: 127vh;
   width: 100vw;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
+  justify-content: space-evenly;
   align-items: center;
-  padding: 17em 0px;
+  padding: 21em 0px 30em;
   background-color: white;
 }
 
@@ -124,18 +124,15 @@ button:hover {
 .middle-section,
 .total-spent-display {
   height: 30vh;
-  margin-top: 20px;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
 }
 
 .total-spent-display {
-  width: 35%;
+  width: 50%;
   font-size: x-large;
   padding-right: 13em;
-  justify-items: center;
-  align-items: center;
 }
 
 .trip-request-container {
@@ -160,8 +157,9 @@ button:hover {
 }
 
 .bottom-right-container {
-  height: 50vh;
-  margin: 20px 0px;
+  height: 85vh;
+  margin: 10px 0px;
+  padding: 5px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
