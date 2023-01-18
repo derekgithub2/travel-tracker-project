@@ -67,7 +67,7 @@ logoutButton.addEventListener('click', function(event) {
 tripRequestForm.addEventListener('submit', function(event) {
     event.preventDefault();
     addNewTrip(tripData.length+1, currentUserID, destinationsData.id, numOfTravelersInput.value, dateInput.value, numOfDaysInput.value, 'pending', []);
-    // displayNewTrip();
+    displayNewTrip();
 })
 
 // FUNCTIONS
@@ -180,4 +180,21 @@ const getUserDestinations = (currentUserID, allUserTrips, destinationsData) => {
     });
 
     return currentUserDestinations = destinationsData.filter(destination => idsArray.includes(destination.id))
+}
+
+const displayNewTrip = () => {
+    tripsDisplayContainer.innerHTML = "";
+    currentUserDestinations = destinationsData.filter(destination => idsArray.includes(destination.id))
+
+    let childElements = tripsDisplayContainer.children;
+    Array.from(childElements).forEach(function(childElement, index) {
+        childElement.innerHTML += `
+            <img id="destination-image" src="${currentUserDestinations[index].image}" alt="${currentUserDestinations[index].alt}">
+            <p>Destination: ${currentUserDestinations[index].destination}</p>
+            <p>Date: ${currentUsersTrips[index].date}</p>
+            <p>Duration: ${currentUsersTrips[index].duration} days</p>
+            <p>Travelers: ${currentUsersTrips[index].travelers}</p>
+            <p>Status: ${currentUsersTrips[index].status}</p>
+        `
+    })
 }
