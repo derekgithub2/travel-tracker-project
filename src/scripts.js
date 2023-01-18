@@ -124,7 +124,7 @@ const displayMoneySpent = (allUserTrips, destinationsData) => {
     let usersDestinations = destinationsData.filter(destinationTrip => {
         return destinationTrip.id === idsArray[0]})
     let moneySpent = Math.round((usersDestinations[0].estimatedLodgingCostPerDay)*(currentUsersTrips[0].duration)+(usersDestinations[0].estimatedFlightCostPerPerson)*(currentUsersTrips[0].travelers)*(1.1))
-    
+
     totalSpentDisplay.innerText += `
         $${moneySpent}*`
 }
@@ -176,5 +176,5 @@ const getUserDestinations = (currentUserID, allUserTrips, destinationsData) => {
 }
 
 const displayNewTrip = () => {
-
+    
 }

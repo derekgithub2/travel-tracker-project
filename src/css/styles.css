@@ -92,6 +92,7 @@ h1 {
 
 button:hover {
   opacity: 0.5;
+
 }
 
 .big-right-container {
@@ -175,14 +176,16 @@ button:hover {
   height: 40vh;
   width: 20vw;
   background-color:beige;
+  box-shadow: 0 0 4em -2em black;
 }
 
-.hidden {
-  display: none;
-}
 
 .destination-image {
   max-width: 100%;
   max-height: 100%;
   display: block;
+}
+
+.hidden {
+  display: none;
 }
