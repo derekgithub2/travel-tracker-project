@@ -72,7 +72,6 @@ button:hover {
 .left-sidebar,
 .button,
 .top-nav-bar,
-.middle-section,
 .bottom-right-container,
 .widget, 
 .login-container {
@@ -130,6 +129,7 @@ button:hover {
 
 .total-spent-display {
   width: 33%;
+  justify-items: center;
 }
 
 .footnote {
