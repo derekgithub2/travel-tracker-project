@@ -112,28 +112,18 @@ const displayMoneySpent = (allUserTrips, destinationsData) => {
     currentUsersTrips = allUserTrips.filter(trip => {
         return trip.userID === currentUserID
     })
-    console.log("currentUsersTrips", currentUsersTrips)
 
     let idsArray = currentUsersTrips.map(userTrip => {
         return userTrip.destinationID
     });
 
     let usersDestinations = destinationsData.filter(destinationTrip => {
-        // idsArray.forEach(el => {
-        //     if (destinationTrip.id === idsArray[el]){
-        //         usersDestinations.push(destinationTrip)
-        //     }
-        // })
         return destinationTrip.id === idsArray[0]
     })
-    console.log("usersDestinations array", usersDestinations)
 
     totalSpentDisplay.innerText += `
-        $${(usersDestinations[0].estimatedLodgingCostPerDay)+(usersDestinations[0].estimatedFlightCostPerPerson)*(1.1)}`
+        $${(usersDestinations[0].estimatedLodgingCostPerDay)*(currentUsersTrips[0].duration)+(usersDestinations[0].estimatedFlightCostPerPerson)*(currentUsersTrips[0].travelers)*(1.1)}*`
 }
-
-//need function to get an array of destinations for current user
-// will need destinationsData, currentUserID
 
 const getUserDestinations = (currentUserID, allUserTrips, destinationsData) => {
 

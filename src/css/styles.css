@@ -118,15 +118,26 @@ button:hover {
   cursor: pointer;
 }
 
-.middle-section {
+.middle-section,
+.total-spent-display {
+  height: 25vh;
+  margin-top: 20px;
   display: flex;
   align-items: flex-start;
-  height: 15vh;
-  margin-top: 20px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.total-spent-display {
+  width: 33%;
+}
+
+.footnote {
+  font-size: x-small;
 }
 
 .bottom-right-container {
-  height: 75vh;
+  height: 50vh;
   margin: 20px 0px;
   display: flex;
   flex-wrap: wrap;
