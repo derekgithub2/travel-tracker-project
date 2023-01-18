@@ -1,6 +1,7 @@
 import './css/styles.css';
 import './images/flight-icon.png'
 import { fetchData } from '../src/apiCalls'
+import { addNewTrip } from '../src/apiCalls';
 import Trips from './Trips';
 
 // QUERY SELECTORS
@@ -12,6 +13,10 @@ const username = document.getElementById('usernameInput');
 const password = document.getElementById('passwordInput');
 const totalSpentDisplay = document.getElementById('totalSpentDisplay')
 const tripsDisplayContainer = document.getElementById('tripsDisplayContainer')
+const tripRequestForm = document.getElementById('tripRequestForm')
+const 
+
+const dayjsInput = document.getElementById('dayjsInput')
 
 // GLOBAL VARIABLES
 let userData;
@@ -21,11 +26,14 @@ let currentUserID;
 let allUserTrips;
 let destinationsData;
 let currentUsersTrips;
-let currentUserDestinations
-let idsArray
+let currentUserDestinations;
+let idsArray;
+
 const dayjs = require('dayjs')
 //import dayjs from 'dayjs' // ES 2015
 dayjs().format()
+
+dayjsInput.value = dayjs().startOf('month').add(1, 'day').set('year', 2018).format('YYYY-MM-DD HH:mm:ss');
 
 // EVENT LISTENERS
 loginButton.addEventListener('click', function (event) {
@@ -46,6 +54,11 @@ loginButton.addEventListener('click', function (event) {
 logoutButton.addEventListener('click', function(event) {
     event.preventDefault();
     logout();
+})
+
+tripRequestForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    Promise.all(addNewTrip())
 })
 
 // FUNCTIONS

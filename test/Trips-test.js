@@ -171,6 +171,18 @@ describe('Trips', function() {
         expect(userTrip1).to.be.an.instanceOf(Trips);
     })
 
+    it.skip('should have a date', function () {
+    
+    })
+
+    it.skip('should have a date', function () {
+    
+    })
+
+    it.skip('should have a date', function () {
+    
+    })
+
     it('should have a function that returns the trips for 1 user in an array', function () {
 
         userID = user1.id
@@ -189,16 +201,5 @@ describe('Trips', function() {
             "suggestedActivities": []}]
         )
     })
-    
-    it.skip('should get all upcoming trips', function () {
-    
-    })
 
-    it.skip('should get all pending trips', function () {
-    
-    })
-
-    it.skip('should return the total amount spent on trips this year', function () {
-        //This should be calculated from the trips data and include a travel agent’s 10% fee
-    })
 })
