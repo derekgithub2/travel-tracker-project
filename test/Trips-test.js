@@ -8,7 +8,6 @@ describe('Trips', function() {
 
     let userID;
     let userTrip1;
-    let userTrip2;
     let trips;
 
     const userData = [
@@ -169,15 +168,12 @@ describe('Trips', function() {
     })
 
     it.skip('should have a date', function () {
-    
     })
 
     it.skip('should have a date', function () {
-    
     })
 
     it.skip('should have a date', function () {
-    
     })
 
     it('should have a function that returns the trips for 1 user in an array', function () {
