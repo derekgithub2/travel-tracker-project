@@ -15,13 +15,9 @@ const password = document.getElementById('passwordInput');
 const totalSpentDisplay = document.getElementById('totalSpentDisplay')
 const tripsDisplayContainer = document.getElementById('tripsDisplayContainer')
 const tripRequestForm = document.getElementById('tripRequestForm')
-const destinationFormOptions = document.getElementById('destinationOptions')
 const numOfTravelersInput = document.getElementById('numOfTravelersInput')
 const numOfDaysInput = document.getElementById('numOfDaysInput')
 const dateInput = document.getElementById('dateInput')
-
-
-const dayjsInput = document.getElementById('dayjsInput')
 
 // GLOBAL VARIABLES
 let userData;
@@ -34,13 +30,6 @@ let allDestinations
 let currentUsersTrips;
 let currentUserDestinations;
 let idsArray;
-let pendingTrips = [];
-
-const dayjs = require('dayjs')
-//import dayjs from 'dayjs' // ES 2015
-dayjs().format()
-
-// dayjsInput.value = dayjs().startOf('month').add(1, 'day').set('year', 2018).format('YYYY-MM-DD HH:mm:ss');
 
 // EVENT LISTENERS
 loginButton.addEventListener('click', function (event) {
@@ -66,8 +55,9 @@ logoutButton.addEventListener('click', function(event) {
 
 tripRequestForm.addEventListener('submit', function(event) {
     event.preventDefault();
-    addNewTrip(tripData.length+1, currentUserID, destinationsData.id, numOfTravelersInput.value, dateInput.value, numOfDaysInput.value, 'pending', []);
-    displayNewTrip();
+    let test = addNewTrip(tripData.length+1, currentUserID, destinationsData.id, numOfTravelersInput.value, dateInput.value, numOfDaysInput.value, 'pending', []);
+    console.log(test)
+    displayNewTrip(test);
 })
 
 // FUNCTIONS
@@ -125,15 +115,17 @@ const onLogin = (currentUser, allUserTrips, destinationsData) => {
 
 const displayMoneySpent = (allUserTrips, destinationsData) => {
     
-    currentUsersTrips = allUserTrips.filter(trip => {
-        return trip.userID === currentUserID})
-    let idsArray = currentUsersTrips.map(userTrip => {
-        return userTrip.destinationID});
+    currentUsersTrips = allUserTrips.filter(trip => trip.userID === currentUserID);
+
+    idsArray = currentUsersTrips.map(userTrip => userTrip.destinationID);
+
     let usersDestinations = destinationsData.filter(destinationTrip => {
         return destinationTrip.id === idsArray[0]})
 
+    let moneySpent = Math.round((usersDestinations[0].estimatedLodgingCostPerDay) * (currentUsersTrips[0].duration) + (usersDestinations[0].estimatedFlightCostPerPerson) * (currentUsersTrips[0].travelers) * (1.1))
+
     totalSpentDisplay.innerText += `
-        $${(usersDestinations[0].estimatedLodgingCostPerDay)*(currentUsersTrips[0].duration)+(usersDestinations[0].estimatedFlightCostPerPerson)*(currentUsersTrips[0].travelers)*(1.1)}*`
+        $${moneySpent}*`
 }
 
 const getDestinationsArray = (currentUserID, allUserTrips, destinationsData) => {
@@ -144,7 +136,7 @@ const getDestinationsArray = (currentUserID, allUserTrips, destinationsData) => 
         let array = []
 
         for (let i = 0; i < currentUsersTrips.length; i++) {
-            if(destination.id === currentUsersTrips[i].destinationID){
+            if (destination.id === currentUsersTrips[i].destinationID) {
                 array.push(destination)
             }
         }
@@ -183,18 +175,5 @@ const getUserDestinations = (currentUserID, allUserTrips, destinationsData) => {
 }
 
 const displayNewTrip = () => {
-    tripsDisplayContainer.innerHTML = "";
-    currentUserDestinations = destinationsData.filter(destination => idsArray.includes(destination.id))
 
-    let childElements = tripsDisplayContainer.children;
-    Array.from(childElements).forEach(function(childElement, index) {
-        childElement.innerHTML += `
-            <img id="destination-image" src="${currentUserDestinations[index].image}" alt="${currentUserDestinations[index].alt}">
-            <p>Destination: ${currentUserDestinations[index].destination}</p>
-            <p>Date: ${currentUsersTrips[index].date}</p>
-            <p>Duration: ${currentUsersTrips[index].duration} days</p>
-            <p>Travelers: ${currentUsersTrips[index].travelers}</p>
-            <p>Status: ${currentUsersTrips[index].status}</p>
-        `
-    })
 }

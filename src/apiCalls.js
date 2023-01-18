@@ -5,7 +5,7 @@ const fetchData = (urlPath) => {
 }
 
 const addNewTrip = (id, userID, destinationID, tripTravelers, tripDate, tripDuration, tripStatus, tripActivities) => {
-    fetch('http://localhost:3001/api/v1/trips', {
+    fetch ('http://localhost:3001/api/v1/trips', {
         method: "POST",
         body: JSON.stringify({
             id: id,
@@ -16,19 +16,19 @@ const addNewTrip = (id, userID, destinationID, tripTravelers, tripDate, tripDura
             duration: tripDuration,
             status: tripStatus,
             suggestedActivities: tripActivities
-        }), 
+    }), 
         header: {
             "Content-Type": "applicaton/json"
         }
-        .then(response => {
-            if(response.ok) {
-                return response.json()
-            } 
-            throw new Error('Something went wrong')
+    })
+    .then (response => {
+        if (response.ok) {
+            return response.json()
+        } 
+        throw new Error('Something went wrong')
         })
-        .catch((error) => {
-            alert(error)
-        })
+    .catch ((error) => {
+        alert (error)
     })
 }
 
