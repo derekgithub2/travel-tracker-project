@@ -1,15 +1,13 @@
 import chai from 'chai';
-import User from '../src/User'
+import Destination from '../src/Destination'
 import Trips from '../src/Trips'
 
 const expect = chai.expect;
 
 describe('Trips', function() {
-    let user1;
-    let user2;
+
     let userID;
     let userTrip1;
-    let userTrip2;
     let trips;
 
     const userData = [
@@ -158,8 +156,6 @@ describe('Trips', function() {
         userTrip2 = new Trips(tripData[1]);
         trips = new Trips(tripData);
 
-        user1 = new User(userData[0]);
-        user2 = new User(userData[1]);
     })
 
     it('should be a function', function () {
@@ -169,6 +165,15 @@ describe('Trips', function() {
 
     it('should be an instance of User', function() {
         expect(userTrip1).to.be.an.instanceOf(Trips);
+    })
+
+    it.skip('should have a date', function () {
+    })
+
+    it.skip('should have a date', function () {
+    })
+
+    it.skip('should have a date', function () {
     })
 
     it('should have a function that returns the trips for 1 user in an array', function () {
@@ -189,16 +194,5 @@ describe('Trips', function() {
             "suggestedActivities": []}]
         )
     })
-    
-    it.skip('should get all upcoming trips', function () {
-    
-    })
 
-    it.skip('should get all pending trips', function () {
-    
-    })
-
-    it.skip('should return the total amount spent on trips this year', function () {
-        //This should be calculated from the trips data and include a travel agent’s 10% fee
-    })
 })

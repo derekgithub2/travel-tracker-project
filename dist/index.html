@@ -16,7 +16,7 @@
         <section class="login-page" id="loginPage">
           <form class="login-form">
             <div class="login-container">
-              <h1>Travel Tracker</h1>
+              <h1>myTravelTracker</h1>
               <label for="uname" class="login-username">Username</label>
               <input type="text" placeholder="Enter Username" name="uname" id="usernameInput" required>
               <label for="psw" class="login-password">Password</label>
@@ -27,24 +27,60 @@
           </form>
         </section>
         <section class="left-sidebar">
-          <div class="side-button">Current</div>
-          <div class="side-button">Upcoming</div>
-          <div class="side-button">Pending</div>
+          <button class="side-button">Current</button>
+          <button class="side-button">Upcoming</button>
+          <button class="side-button">Pending</button>
         </section>
         <section class="big-right-container">
           <section class="top-nav-bar">
             <h2 id="welcomeMessage">Hello, user!</h2>
-            <img class="user-icon" src="./images/login-icon.png" alt="login icon">
-            <button class="logout-button" id="logoutButton">Logout</button>
+            <h1>myTravelTracker</h1>
+            <div class="top-nav-right-container">
+              <img class="logo-icon" src="./images/flight-icon.png" alt="logo icon">
+              <button class="logout-button" id="logoutButton">Logout</button>
+            </div>
           </section>
           <section class="middle-section">
-            <div class="total-spent-display" id="totalSpentDisplay">Total Spent on Trips This Year:</div>
+            <section class="total-spent-display" >
+              <div id="totalSpentDisplay">Total Spent on Trips This Year:</div>
+            </section>
+            <section class="trip-request-container">
+              <label for="tripRequest" class="trip-request-label">Request a Trip!</label>
+              <form class="trip-request-form" id="tripRequestForm">
+                <label for="destinations">Pick Your Destination: </label>
+                <select name="destinations" id="destinationOptions">
+                  <option value="Lima, Peru">Lima, Peru</option>
+                  <option value="Stockholm, Sweden">Stockholm, Sweden</option>
+                  <option value="Sydney, Austrailia">Sydney, Austrailia</option>
+                  <option value="Cartagena, Colombia">Cartagena, Colombia</option>
+                  <option value="Madrid, Spain">Madrid, Spain</option>
+                  <option value="Paris, France">Paris, France</option>
+                  <option value="Tokyo, Japan">Tokyo, Japan</option>
+                  <option value="Amsterdam, Netherlands">Amsterdam, Netherlands</option>
+                </select>
+                <label for="numTravelerInput">Number of Travelers: </label>
+                <input type="text" placeholder="Enter number of travelers" name="numOfTravelersInput" id="numOfTravelersInput">
+                <label for="numDaysInput">Number of days: </label>
+                <input type="text" placeholder="Enter the number of days" name="numOfDaysInput" id="numOfDaysInput">
+                <label for="dateInput">Start Date: </label>
+                <input type="date" name="date-input" class="date-input" id="dateInput">
+                <input type="submit" value="Submit">
+              </form>
+            </section>
           </section>
           <section class="bottom-right-container" id="tripsDisplayContainer">
             <section class="widget" id="tripWidget1">Trip 1
-              <img id="destination-image" src="" alt="">
+            </section>
+            <section class="widget" id="tripWidget2">Trip 2
+            </section>
+            <section class="widget" id="tripWidget3">Trip 3
+            </section>
+            <section class="widget" id="tripWidget4">Trip 4
+            </section>
+            <section class="widget" id="tripWidget4">Trip 4
             </section>
           </section>
+          <p class="footnote">*This dollar amount includes estimated lodging cost per day, estimated flight cost per person and a 10% travel agent fee</p>
         </section>
       </main>
       <script src="bundle.js"></script>

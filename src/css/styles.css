@@ -33,12 +33,6 @@ h1 {
   font-size: 48px;
 }
 
-.user-icon {
-  /* position: absolute; */
-  right: 12%;
-  height: 40px;
-}
-
 .login-page,
 .login-form,
 .login-container {
@@ -64,15 +58,10 @@ h1 {
   border-radius: 2em;
 }
 
-button:hover {
-  opacity: 0.8;
-}
-
 /* Remove these borders */
 .left-sidebar,
 .button,
 .top-nav-bar,
-.middle-section,
 .bottom-right-container,
 .widget, 
 .login-container {
@@ -90,8 +79,19 @@ button:hover {
 }
 
 .side-button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   height: 50px;
+  border: 1px solid black;
+  color:black;
+  background-color: aquamarine;
   cursor: pointer;
+  border: none;
+}
+
+button:hover {
+  opacity: 0.5;
 }
 
 .big-right-container {
@@ -102,11 +102,17 @@ button:hover {
   padding: 20px;
 }
 
-.top-nav-bar {
+.top-nav-bar,
+.top-nav-right-container {
   padding: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.logo-icon {
+  height: 40px;
+  color:black;
 }
 
 .logout-button {
@@ -115,20 +121,52 @@ button:hover {
   cursor: pointer;
 }
 
-.middle-section {
-  display: flex;
-  align-items: flex-start;
-  height: 15vh;
+.middle-section,
+.total-spent-display {
+  height: 30vh;
   margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.total-spent-display {
+  width: 35%;
+  font-size: x-large;
+  padding-right: 13em;
+  justify-items: center;
+  align-items: center;
+}
+
+.trip-request-container {
+  height: 15em;
+  width: 15em;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  justify-content: space-evenly;
+}
+
+.trip-request-form {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid black;
+  justify-content: space-around;
+  padding:1px;
+}
+
+.footnote {
+  font-size: x-small;
 }
 
 .bottom-right-container {
-  height: 75vh;
+  height: 50vh;
   margin: 20px 0px;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-evenly;
   align-items: center;
+  background-color:darkgrey;
 }
 
 .widget {
@@ -136,14 +174,17 @@ button:hover {
   flex-direction: column;
   justify-content: center;
   align-items: stretch;
-  height: 25vh;
+  height: 40vh;
   width: 20vw;
+  background-color:beige;
 }
 
 .hidden {
   display: none;
 }
 
-/* .destination-image {
-  size: 10px;
-} */
+.destination-image {
+  max-width: 100%;
+  max-height: 100%;
+  display: block;
+}
