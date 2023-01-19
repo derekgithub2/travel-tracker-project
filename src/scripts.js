@@ -18,6 +18,7 @@ const tripRequestForm = document.getElementById('tripRequestForm')
 const numOfTravelersInput = document.getElementById('numOfTravelersInput')
 const numOfDaysInput = document.getElementById('numOfDaysInput')
 const dateInput = document.getElementById('dateInput')
+const destinationOptions = document.getElementById('destinationOptions')
 
 // GLOBAL VARIABLES
 let userData;
@@ -35,7 +36,10 @@ let idsArray;
 loginButton.addEventListener('click', function (event) {
     event.preventDefault();
     checkLogin(event);
+    callPromise();
+})
 
+const callPromise = () => {
     Promise.all([fetchData('travelers'), fetchData('trips'), fetchData('destinations')])
         .then((data) => {
             userData = data[0].travelers
@@ -45,8 +49,9 @@ loginButton.addEventListener('click', function (event) {
             instantiateTrip(tripData)
             instantiateDestinations(destinationsData)
             onLogin(currentUser, allUserTrips, destinationsData)
-    })
-})
+            updateDashboardDisplay()
+        })
+}
 
 logoutButton.addEventListener('click', function(event) {
     event.preventDefault();
@@ -55,9 +60,18 @@ logoutButton.addEventListener('click', function(event) {
 
 tripRequestForm.addEventListener('submit', function(event) {
     event.preventDefault();
-    let test = addNewTrip(tripData.length+1, currentUserID, destinationsData.id, numOfTravelersInput.value, dateInput.value, numOfDaysInput.value, 'pending', []);
-    console.log(test)
-    displayNewTrip(test);
+
+    addNewTrip(tripData.length+1, currentUserID, allDestinations.getDestinationIDByName(destinationOptions.value).id, numOfTravelersInput.value, dateInput.value, numOfDaysInput.value, 'pending', [])
+    .then(response => {
+        if (response.ok) {
+            callPromise()
+            return response.json()
+        } 
+        throw new Error('Something went wrong', (`${response.status}: ${response.statusText}`))
+        })
+    .catch((error) => {
+        alert (error)
+    })
 })
 
 // FUNCTIONS
@@ -104,13 +118,10 @@ const instantiateDestinations = (destinationsData) => {
     return allDestinations
 }
 
-const onLogin = (currentUser, allUserTrips, destinationsData) => {
-    welcomeMessage.innerText = `Hello, ${currentUser.name}`
-
+const onLogin = (currentUserID, allUserTrips, destinationsData) => {
     getDestinationsArray(currentUserID, allUserTrips, destinationsData)
     getUserDestinations(currentUserID, allUserTrips, destinationsData)
     displayMoneySpent(allUserTrips, destinationsData)
-    displayTrips(currentUserID, allUserTrips, destinationsData)
 }
 
 const displayMoneySpent = (allUserTrips, destinationsData) => {
@@ -124,8 +135,7 @@ const displayMoneySpent = (allUserTrips, destinationsData) => {
 
     let moneySpent = Math.round((usersDestinations[0].estimatedLodgingCostPerDay) * (currentUsersTrips[0].duration) + (usersDestinations[0].estimatedFlightCostPerPerson) * (currentUsersTrips[0].travelers) * (1.1))
 
-    totalSpentDisplay.innerText += `
-        $${moneySpent}*`
+    totalSpentDisplay.innerText = `Total Spent on Trips This Year: $${moneySpent}*`
 }
 
 const getDestinationsArray = (currentUserID, allUserTrips, destinationsData) => {
@@ -145,25 +155,23 @@ const getDestinationsArray = (currentUserID, allUserTrips, destinationsData) => 
     return destinationsArray
 }
 
-const displayTrips = (currentUserID, allUserTrips, destinationsData) => {
-    idsArray = allUserTrips.filter(trip => trip.userID === currentUserID).map(userTrip => {
-        return userTrip.destinationID
-    });
+const updateDashboardDisplay = () => {
+    welcomeMessage.innerText = `Hello, ${currentUser.name}`
 
-    currentUserDestinations = destinationsData.filter(destination => idsArray.includes(destination.id))
+    tripsDisplayContainer.innerHTML = ""
 
-    let childElements = tripsDisplayContainer.children;
-    Array.from(childElements).forEach(function(childElement, index) {
-        childElement.innerHTML += `
-            <img id="destination-image" src="${currentUserDestinations[index].image}" alt="${currentUserDestinations[index].alt}">
-            <p>Destination: ${currentUserDestinations[index].destination}</p>
-            <p>Date: ${currentUsersTrips[index].date}</p>
-            <p>Duration: ${currentUsersTrips[index].duration} days</p>
-            <p>Travelers: ${currentUsersTrips[index].travelers}</p>
-            <p>Status: ${currentUsersTrips[index].status}</p>
-        `
+    currentUsersTrips.forEach((trip) => {
+        let destination = allDestinations.getDestinationID(trip.destinationID)
+        tripsDisplayContainer.innerHTML += `
+        <div class="widget" id="widget">
+            <img id="destination-image" src="${destination.image}" alt="${destination.alt}">
+            <p>Destination: ${destination.destination}</p>
+            <p>Date: ${trip.date}</p>
+            <p>Duration: ${trip.duration} days</p>
+            <p>Travelers: ${trip.travelers}</p>
+            <p>Status: ${trip.status}</p>
+        </div>`
     })
-    return currentUserDestinations
 }
 
 const getUserDestinations = (currentUserID, allUserTrips, destinationsData) => {
@@ -172,8 +180,4 @@ const getUserDestinations = (currentUserID, allUserTrips, destinationsData) => {
     });
 
     return currentUserDestinations = destinationsData.filter(destination => idsArray.includes(destination.id))
-}
-
-const displayNewTrip = () => {
-
 }

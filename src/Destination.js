@@ -1,18 +1,15 @@
 class Destinations {
     constructor (destinationData) {
-        this.id = destinationData.id
-        this.destination = destinationData.destination
-        this.estimatedLodgingCostPerDay = destinationData.estimatedLodgingCostPerDay
-        this.estimatedFlightCostPerPerson = destinationData.estimatedFlightCostPerPerson
-        this.image = destinationData.image
-        this.alt = destinationData.alt
+        this.data = destinationData
     }
 
-    getDestinationID (userID) {
-        return this.destinationData.find(destination => destination.id === userID)
+    getDestinationID (iD) {
+        return this.data.find(destination => destination.id === iD)
     }
 
+    getDestinationIDByName (destinationName) {
+        return this.data.find(destination => destination.destination === destinationName)
+    }
 }
-
 
 export default Destinations;
