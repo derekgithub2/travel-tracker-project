@@ -1,7 +1,7 @@
 # Travel Tracker
 ## Abstract
 
-1. Clown down the current repository using the SHH key (also provided [here](git@github.com:derekgithub2/travel-tracker-project.git))
+1. Clone down the current repository using the SHH key (also provided [here](git@github.com:derekgithub2/travel-tracker-project.git))
 3. Navigate to the repository directory using `cd` in the terminal. Install NPM packages:
   1. Run `npm install` to install project dependencies.
   2. Run `npm start` through the command line interpreter to see the HTML page.
